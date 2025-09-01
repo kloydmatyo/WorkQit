@@ -44,3 +44,10 @@ By combining income-generating opportunities with free training and upskilling, 
 ---
 
 Whether you're just starting your career or seeking a stepping stone into the green and tech-forward economy, WorkQit is your partner in growth.
+
+---
+
+## Team Members & Roles
+
+- **Frontend Developer:** Christian John Castillejo
+- **Backend Developer:** Cloyd Matthew Arabe
