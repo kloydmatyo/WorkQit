@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:db": "node scripts/test-db-connection.js"
+    "test:db": "node scripts/test-db-connection.js",
+    "create:test-user": "node scripts/create-test-user.js"
   },
   "dependencies": {
     "next": "14.0.0",

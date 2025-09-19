@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { MapPin, Clock, DollarSign, Users } from 'lucide-react'
+import Link from 'next/link'
 
 interface Job {
   _id: string
@@ -56,6 +57,32 @@ export default function JobsPage() {
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }))
+  }
+
+  const handleApply = async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/jobs/${jobId}/apply`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          coverLetter: 'I am interested in this position and would like to apply.'
+        }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        alert('Application submitted successfully!')
+        // Optionally refresh the jobs list or redirect to dashboard
+      } else {
+        alert(data.error || 'Failed to submit application')
+      }
+    } catch (error) {
+      console.error('Error applying to job:', error)
+      alert('An error occurred while submitting your application')
+    }
   }
 
   return (
@@ -185,12 +212,18 @@ export default function JobsPage() {
                 )}
                 
                 <div className="flex justify-between items-center">
-                  <button className="btn-primary">
+                  <button 
+                    onClick={() => handleApply(job._id)}
+                    className="btn-primary"
+                  >
                     Apply Now
                   </button>
-                  <button className="text-primary-600 hover:text-primary-700 font-medium">
+                  <Link 
+                    href={`/jobs/${job._id}`}
+                    className="text-primary-600 hover:text-primary-700 font-medium"
+                  >
                     View Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))

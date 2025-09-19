@@ -34,21 +34,23 @@ export async function GET() {
       }
     })
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Database connection failed:', error)
     
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     let errorType = 'Unknown error'
-    if (error.message?.includes('authentication failed')) {
+    
+    if (errorMessage.includes('authentication failed')) {
       errorType = 'Authentication failed - check username/password'
-    } else if (error.message?.includes('network')) {
+    } else if (errorMessage.includes('network')) {
       errorType = 'Network error - check internet connection and IP whitelist'
-    } else if (error.message?.includes('timeout')) {
+    } else if (errorMessage.includes('timeout')) {
       errorType = 'Connection timeout - check network and MongoDB Atlas status'
     }
 
     return NextResponse.json({
       success: false,
-      error: error.message,
+      error: errorMessage,
       errorType,
       timestamp: new Date().toISOString()
     }, { status: 500 })
