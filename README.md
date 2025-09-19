@@ -196,7 +196,7 @@ By combining income-generating opportunities with free training and upskilling, 
 
 ```bash
 git clone <repository-url>
-cd workqit-platform
+cd PayamanCoders_Arabe_Castillejo
 ```
 
 2. **Install dependencies**
