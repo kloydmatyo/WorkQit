@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Menu, X, User, Briefcase, Users, BookOpen, LogOut, Settings } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -26,23 +26,40 @@ export default function Navbar() {
 
   const AuthenticatedNav = () => (
     <>
-      <Link href="/jobs" className="flex items-center text-gray-700 hover:text-primary-600">
-        <Briefcase className="w-4 h-4 mr-1" />
-        Jobs
-      </Link>
-      <Link href="/career-map" className="flex items-center text-gray-700 hover:text-primary-600">
-        <BookOpen className="w-4 h-4 mr-1" />
-        Career Map
-      </Link>
-      <Link href="/community" className="flex items-center text-gray-700 hover:text-primary-600">
-        <Users className="w-4 h-4 mr-1" />
-        Community
-      </Link>
-      <Link href="/dashboard" className="flex items-center text-gray-700 hover:text-primary-600">
-        <User className="w-4 h-4 mr-1" />
-        Dashboard
-      </Link>
-      
+      <div className="hidden md:block">
+        <div className="ml-10 flex items-baseline space-x-4">
+          <Link
+            href="/dashboard"
+            className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+          >
+            Dashboard
+          </Link>
+          <Link
+            href="/counter-demo"
+            className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+          >
+            Counter Demo
+          </Link>
+          <Link
+            href="/counter-comparison"
+            className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+          >
+            Props vs Context
+          </Link>
+          <Link href="/jobs" className="flex items-center text-gray-700 hover:text-primary-600">
+            <Briefcase className="w-4 h-4 mr-1" />
+            Jobs
+          </Link>
+          <Link href="/career-map" className="flex items-center text-gray-700 hover:text-primary-600">
+            <BookOpen className="w-4 h-4 mr-1" />
+            Career Map
+          </Link>
+          <Link href="/community" className="flex items-center text-gray-700 hover:text-primary-600">
+            <Users className="w-4 h-4 mr-1" />
+            Community
+          </Link>
+        </div>
+      </div>
       {/* User Menu */}
       <div className="relative">
         <button
