@@ -24,6 +24,7 @@ interface Job {
   remote?: boolean
   status?: string
   createdAt?: string
+  applicantCount?: number
 }
 
 interface Applicant {
@@ -317,6 +318,11 @@ export default function EmployerHomepage() {
                       <div className="text-sm text-gray-500">
                         {job.company} • {job.location || 'Remote'} • {job.type || '—'}
                       </div>
+                      {typeof job.applicantCount === 'number' && (
+                        <div className="text-sm text-blue-600 mt-1">
+                          {job.applicantCount} applicant{job.applicantCount !== 1 ? 's' : ''}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-3">

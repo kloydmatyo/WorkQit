@@ -14,9 +14,22 @@ export async function GET(request: NextRequest) {
     const location = searchParams.get('location')
     const remote = searchParams.get('remote')
     const skills = searchParams.get('skills')
+    const employer = searchParams.get('employer')
 
     // Build filter object
     const filter: any = { status: 'active' }
+    
+    // If employer=true, filter by current user's jobs
+    if (employer === 'true') {
+      const user = await verifyToken(request)
+      if (!user || user.role !== 'employer') {
+        return NextResponse.json(
+          { error: 'Unauthorized - employer access required' },
+          { status: 401 }
+        )
+      }
+      filter.employerId = user.userId
+    }
     
     if (type) filter.type = type
     if (location) filter.location = { $regex: location, $options: 'i' }
@@ -29,32 +42,29 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    // Fetch jobs with optimized query
+    // Fetch jobs with population in one query
     const jobs = await Job.find(filter)
+      .populate('employerId', 'firstName lastName email')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
-      .lean() // Use lean() for better performance
+      .lean()
 
     const total = await Job.countDocuments(filter)
 
-    // Populate employer info efficiently
-    const jobsWithEmployer = await Promise.all(
-      jobs.map(async (job) => {
-        try {
-          const populatedJob = await Job.findById(job._id)
-            .populate('employerId', 'firstName lastName email')
-            .lean()
-          return populatedJob || job
-        } catch (populateError) {
-          console.warn('Failed to populate employer for job:', job._id)
-          return job
+    // Add applicant count for employer view
+    const jobsWithApplicantCount = jobs.map(job => {
+      if (employer === 'true') {
+        return {
+          ...job,
+          applicantCount: job.applicants ? job.applicants.length : 0
         }
-      })
-    )
+      }
+      return job
+    })
 
     return NextResponse.json({
-      jobs: jobsWithEmployer,
+      jobs: jobsWithApplicantCount,
       pagination: {
         page,
         limit,
