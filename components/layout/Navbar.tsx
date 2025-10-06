@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Menu, X, User, Briefcase, Users, BookOpen, LogOut, Settings } from 'lucide-react'
+import { Menu, X, User, Briefcase, Users, BookOpen, LogOut, Settings, FileText } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 
 export default function Navbar() {
@@ -50,6 +50,12 @@ export default function Navbar() {
             <Briefcase className="w-4 h-4 mr-1" />
             Jobs
           </Link>
+          {user?.role === 'job_seeker' && (
+            <Link href="/applications" className="flex items-center text-gray-700 hover:text-primary-600">
+              <FileText className="w-4 h-4 mr-1" />
+              My Applications
+            </Link>
+          )}
           <Link href="/career-map" className="flex items-center text-gray-700 hover:text-primary-600">
             <BookOpen className="w-4 h-4 mr-1" />
             Career Map
@@ -127,6 +133,11 @@ export default function Navbar() {
       <Link href="/jobs" className="block px-3 py-2 text-gray-700 hover:text-primary-600">
         Jobs
       </Link>
+      {user?.role === 'job_seeker' && (
+        <Link href="/applications" className="block px-3 py-2 text-gray-700 hover:text-primary-600">
+          My Applications
+        </Link>
+      )}
       <Link href="/career-map" className="block px-3 py-2 text-gray-700 hover:text-primary-600">
         Career Map
       </Link>
