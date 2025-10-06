@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     console.log('🔍 Looking for user with email:', email)
     // Find user
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email.toLowerCase() })
     if (!user) {
       console.log('❌ User not found')
       return NextResponse.json(
@@ -36,6 +36,28 @@ export async function POST(request: NextRequest) {
       )
     }
     console.log('✅ User found:', user.email, 'Role:', user.role)
+
+    // Check if email is verified
+    if (!user.emailVerified) {
+      console.log('❌ Email not verified')
+      return NextResponse.json(
+        { 
+          error: 'Please verify your email address before logging in',
+          requiresVerification: true,
+          email: user.email
+        },
+        { status: 403 }
+      )
+    }
+
+    // Check if user uses Google OAuth (no password)
+    if (user.authProvider === 'google') {
+      console.log('❌ User should use Google OAuth')
+      return NextResponse.json(
+        { error: 'Please sign in with Google' },
+        { status: 400 }
+      )
+    }
 
     console.log('🔑 Comparing passwords...')
     // Check password

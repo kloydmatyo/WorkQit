@@ -2,10 +2,15 @@ import mongoose from 'mongoose'
 
 export interface IUser extends mongoose.Document {
   email: string
-  password: string
+  password?: string
   firstName: string
   lastName: string
   role: 'job_seeker' | 'employer' | 'mentor' | 'admin'
+  emailVerified: boolean
+  emailVerificationToken?: string
+  emailVerificationExpires?: Date
+  googleId?: string
+  authProvider: 'local' | 'google'
   profile: {
     bio?: string
     skills: string[]
@@ -14,6 +19,7 @@ export interface IUser extends mongoose.Document {
     education?: string
     availability?: 'full_time' | 'part_time' | 'contract' | 'internship'
     remote?: boolean
+    profilePicture?: string
   }
   createdAt: Date
   updatedAt: Date
@@ -28,8 +34,29 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    required: function(this: IUser): boolean {
+      return this.authProvider === 'local'
+    },
     minlength: 6,
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  emailVerificationToken: {
+    type: String,
+  },
+  emailVerificationExpires: {
+    type: Date,
+  },
+  googleId: {
+    type: String,
+    sparse: true,
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local',
   },
   firstName: {
     type: String,
@@ -58,6 +85,7 @@ const UserSchema = new mongoose.Schema({
       type: Boolean,
       default: false,
     },
+    profilePicture: String,
   },
 }, {
   timestamps: true,
