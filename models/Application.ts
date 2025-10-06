@@ -5,7 +5,12 @@ export interface IApplication extends mongoose.Document {
   applicantId: mongoose.Types.ObjectId
   status: 'pending' | 'reviewed' | 'accepted' | 'rejected'
   coverLetter?: string
-  resume?: string
+  resume?: {
+    filename: string
+    cloudinaryUrl: string
+    cloudinaryPublicId: string
+    uploadedAt: Date
+  }
   feedbacks?: {
     rating?: number
     comments?: string
@@ -37,7 +42,12 @@ const ApplicationSchema = new mongoose.Schema({
     default: 'pending',
   },
   coverLetter: String,
-  resume: String,
+  resume: {
+    filename: String,
+    cloudinaryUrl: String,
+    cloudinaryPublicId: String,
+    uploadedAt: Date,
+  },
   feedbacks: [{
     rating: {
       type: Number,

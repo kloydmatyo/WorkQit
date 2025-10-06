@@ -22,6 +22,15 @@ export interface IUser extends mongoose.Document {
     remote?: boolean
     profilePicture?: string
   }
+  resume?: {
+    filename: string
+    originalName: string
+    cloudinaryPublicId: string
+    cloudinaryUrl: string
+    fileSize: number
+    fileType: string
+    uploadedAt: Date
+  }
   createdAt: Date
   updatedAt: Date
 }
@@ -93,6 +102,18 @@ const UserSchema = new mongoose.Schema({
       default: false,
     },
     profilePicture: String,
+  },
+  resume: {
+    filename: String,
+    originalName: String,
+    cloudinaryPublicId: String,
+    cloudinaryUrl: String,
+    fileSize: Number,
+    fileType: String,
+    uploadedAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
 }, {
   timestamps: true,

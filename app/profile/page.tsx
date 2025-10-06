@@ -4,6 +4,15 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { User, Mail, MapPin, Briefcase, GraduationCap, Clock, Globe } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import ResumeUpload from '@/components/ResumeUpload'
+
+interface ResumeData {
+  filename: string
+  url: string
+  size: number
+  type: string
+  uploadedAt: string
+}
 
 interface UserProfile {
   _id: string
@@ -20,6 +29,7 @@ interface UserProfile {
     availability?: string
     remote?: boolean
   }
+  resume?: ResumeData
   createdAt: string
 }
 
@@ -225,6 +235,29 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Resume Section - Only for job seekers */}
+      {user?.role === 'job_seeker' && (
+        <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-900">Resume</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Upload your resume to make it easier for employers to learn about your background
+            </p>
+          </div>
+          <div className="p-6">
+            <ResumeUpload
+              currentResume={user.resume}
+              onUploadSuccess={(resume) => {
+                setUser(prev => prev ? { ...prev, resume } : null)
+              }}
+              onDeleteSuccess={() => {
+                setUser(prev => prev ? { ...prev, resume: undefined } : null)
+              }}
+            />
           </div>
         </div>
       )}

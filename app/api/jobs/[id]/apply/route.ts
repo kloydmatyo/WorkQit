@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongoose'
 import Application from '@/models/Application'
 import Job from '@/models/Job'
+import User from '@/models/User'
 import { verifyToken } from '@/lib/auth'
 
 export async function POST(
@@ -44,11 +45,25 @@ export async function POST(
       )
     }
 
+    // Get user's resume information
+    const applicant = await User.findById(user.userId).select('resume')
+    let resumeData = null
+    
+    if (applicant?.resume) {
+      resumeData = {
+        filename: applicant.resume.filename,
+        cloudinaryUrl: applicant.resume.cloudinaryUrl,
+        cloudinaryPublicId: applicant.resume.cloudinaryPublicId,
+        uploadedAt: applicant.resume.uploadedAt,
+      }
+    }
+
     // Create application
     const application = await Application.create({
       jobId,
       applicantId: user.userId,
       coverLetter,
+      resume: resumeData,
       status: 'pending'
     })
 

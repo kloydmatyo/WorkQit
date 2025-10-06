@@ -23,6 +23,11 @@ interface Applicant {
     coverLetter: string
     appliedDate: string
     feedbacks: any[]
+    resume?: {
+      filename: string
+      cloudinaryUrl: string
+      uploadedAt: string
+    }
   }
 }
 
@@ -266,6 +271,27 @@ export default function JobApplicantsPage() {
                         +{applicant.applicant.skills.length - 5} more
                       </span>
                     )}
+                  </div>
+                </div>
+              )}
+
+              {/* Resume */}
+              {applicant.application.resume && (
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium text-gray-700 mb-2">Resume</h4>
+                  <div className="flex items-center space-x-2">
+                    <FileText className="w-4 h-4 text-gray-400" />
+                    <a
+                      href={applicant.application.resume.cloudinaryUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+                    >
+                      {applicant.application.resume.filename}
+                    </a>
+                    <span className="text-gray-500 text-xs">
+                      (Uploaded {new Date(applicant.application.resume.uploadedAt).toLocaleDateString()})
+                    </span>
                   </div>
                 </div>
               )}
