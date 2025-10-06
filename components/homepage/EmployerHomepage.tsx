@@ -337,10 +337,17 @@ export default function EmployerHomepage() {
                       </span>
 
                       <Link
-                        href={`/jobs/${job._id}`}
+                        href={`/jobs/${job._id}/applicants`}
                         className="text-sm text-blue-600 hover:underline"
                       >
-                        Manage
+                        View Applicants
+                      </Link>
+                      
+                      <Link
+                        href={`/jobs/${job._id}`}
+                        className="text-sm text-gray-600 hover:underline"
+                      >
+                        Edit
                       </Link>
                     </div>
                   </div>
