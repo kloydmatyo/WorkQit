@@ -22,6 +22,20 @@ export interface IUser extends mongoose.Document {
     remote?: boolean
     profilePicture?: string
   }
+  companyProfile?: {
+    companyName?: string
+    industry?: string
+    companySize?: string
+    website?: string
+    description?: string
+    location?: string
+    phone?: string
+    logo?: string
+    founded?: string
+    benefits?: string[]
+    culture?: string
+    updatedAt?: Date
+  }
   resume?: {
     filename: string
     originalName: string
@@ -114,6 +128,29 @@ const UserSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
+  },
+  companyProfile: {
+    companyName: String,
+    industry: {
+      type: String,
+      enum: ['technology', 'healthcare', 'finance', 'education', 'retail', 'manufacturing', 'consulting', 'media', 'nonprofit', 'other']
+    },
+    companySize: {
+      type: String,
+      enum: ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+']
+    },
+    website: String,
+    description: String,
+    location: String,
+    phone: String,
+    logo: String,
+    founded: String,
+    benefits: [String],
+    culture: String,
+    updatedAt: {
+      type: Date,
+      default: Date.now
+    }
   },
   
   // Password security tracking
