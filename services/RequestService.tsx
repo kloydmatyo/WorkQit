@@ -179,8 +179,7 @@ export class RequestService {
       headers: {
         // Don't set Content-Type for FormData - let browser set it with boundary
         ...config?.headers,
-      }
-    }
+      }-
     
     // Remove Content-Type header to let browser set it properly for FormData
     delete uploadConfig.headers?.['Content-Type']
