@@ -55,8 +55,10 @@ export class RequestService {
       }
 
       // Handle body serialization
-      if (config.body && typeof config.body === 'object') {
+      if (config.body && typeof config.body === 'object' && !(config.body instanceof FormData)) {
         mergedConfig.body = JSON.stringify(config.body)
+      } else if (config.body) {
+        mergedConfig.body = config.body
       }
 
       const response = await fetch(fullUrl, mergedConfig)
@@ -179,7 +181,8 @@ export class RequestService {
       headers: {
         // Don't set Content-Type for FormData - let browser set it with boundary
         ...config?.headers,
-      }-
+      }
+    }
     
     // Remove Content-Type header to let browser set it properly for FormData
     delete uploadConfig.headers?.['Content-Type']
