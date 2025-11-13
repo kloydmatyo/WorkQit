@@ -1,0 +1,50 @@
+{
+  "name": "workqit-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:db": "node scripts/test-db-connection.js",
+    "create:test-user": "node scripts/create-test-user.js"
+  },
+  "dependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/nodemailer": "^7.0.2",
+    "autoprefixer": "^10.4.16",
+    "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.0",
+    "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.7.0",
+    "clsx": "^2.0.0",
+    "d3": "^7.8.5",
+    "google-auth-library": "^10.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.292.0",
+    "mongodb": "^6.2.0",
+    "mongoose": "^8.0.0",
+    "multer": "^2.0.2",
+    "next": "14.0.0",
+    "next-auth": "^4.24.0",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.10.1",
+    "postcss": "^8.4.31",
+    "react": "^18",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18",
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "dotenv": "^16.3.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.0",
+    "typescript": "^5"
+  }
+}
