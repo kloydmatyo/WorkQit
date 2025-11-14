@@ -33,51 +33,37 @@ export default function Navbar() {
 
   const AuthenticatedNav = () => (
     <>
-      <div className="hidden md:block">
-        <div className="ml-10 flex items-baseline space-x-3">
-          <Link
-            href="/dashboard"
-            className={`nav-link ${isActive('/dashboard') ? 'nav-link-active' : ''}`}
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/counter-demo"
-            className={`nav-link ${isActive('/counter-demo') ? 'nav-link-active' : ''}`}
-          >
-            Counter Demo
-          </Link>
-          <Link
-            href="/counter-comparison"
-            className={`nav-link ${isActive('/counter-comparison') ? 'nav-link-active' : ''}`}
-          >
-            Props vs Context
-          </Link>
-          <Link href="/jobs" className={`nav-link group ${isActive('/jobs') ? 'nav-link-active' : ''}`}>
-            <Briefcase className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-            Jobs
-          </Link>
-          {user?.role === 'job_seeker' && (
-            <>
-              <Link href="/resume-builder" className={`nav-link group ${isActive('/resume-builder') ? 'nav-link-active' : ''}`}>
-                <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-                Resume Builder
-              </Link>
-              <Link href="/applications" className={`nav-link group ${isActive('/applications') ? 'nav-link-active' : ''}`}>
-                <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-                My Applications
-              </Link>
-            </>
-          )}
-          <Link href="/career-map" className={`nav-link group ${isActive('/career-map') ? 'nav-link-active' : ''}`}>
-            <BookOpen className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-            Career Map
-          </Link>
-          <Link href="/community" className={`nav-link group ${isActive('/community') ? 'nav-link-active' : ''}`}>
-            <Users className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-            Community
-          </Link>
-        </div>
+      <div className="hidden md:flex items-center gap-3">
+        <Link
+          href="/dashboard"
+          className={`nav-link ${isActive('/dashboard') ? 'nav-link-active' : ''}`}
+        >
+          Dashboard
+        </Link>
+        <Link href="/jobs" className={`nav-link group ${isActive('/jobs') ? 'nav-link-active' : ''}`}>
+          <Briefcase className="nav-icon text-secondary-500 group-hover:text-primary-500" />
+          Jobs
+        </Link>
+        {user?.role === 'job_seeker' && (
+          <>
+            <Link href="/resume-builder" className={`nav-link group ${isActive('/resume-builder') ? 'nav-link-active' : ''}`}>
+              <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
+              Resume Builder
+            </Link>
+            <Link href="/applications" className={`nav-link group ${isActive('/applications') ? 'nav-link-active' : ''}`}>
+              <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
+              My Applications
+            </Link>
+          </>
+        )}
+        <Link href="/career-map" className={`nav-link group ${isActive('/career-map') ? 'nav-link-active' : ''}`}>
+          <BookOpen className="nav-icon text-secondary-500 group-hover:text-primary-500" />
+          Career Map
+        </Link>
+        <Link href="/community" className={`nav-link group ${isActive('/community') ? 'nav-link-active' : ''}`}>
+          <Users className="nav-icon text-secondary-500 group-hover:text-primary-500" />
+          Community
+        </Link>
       </div>
       {/* User Menu */}
       <div className="relative">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FileText, Sparkles, Upload, Link as LinkIcon } from 'lucide-react';
+import { FileText, Sparkles } from 'lucide-react';
 
 interface JobDescriptionInputProps {
   onAnalyze: (description: string, analysis: any) => void;
@@ -11,7 +11,6 @@ export default function JobDescriptionInput({ onAnalyze }: JobDescriptionInputPr
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [inputMethod, setInputMethod] = useState<'paste' | 'url'>('paste');
 
   const handleAnalyze = async () => {
     if (!description.trim()) {
@@ -56,38 +55,11 @@ export default function JobDescriptionInput({ onAnalyze }: JobDescriptionInputPr
         </p>
       </div>
 
-      {/* Input Method Toggle */}
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={() => setInputMethod('paste')}
-          className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-            inputMethod === 'paste'
-              ? 'bg-purple-600 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <FileText className="w-4 h-4 inline mr-2" />
-          Paste Text
-        </button>
-        <button
-          onClick={() => setInputMethod('url')}
-          className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-            inputMethod === 'url'
-              ? 'bg-purple-600 text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <LinkIcon className="w-4 h-4 inline mr-2" />
-          Job URL
-        </button>
-      </div>
-
       {/* Input Area */}
-      {inputMethod === 'paste' ? (
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Paste the complete job description here...
+      <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Paste the complete job description here...
 
 Example:
 Job Title: Software Engineer
@@ -95,22 +67,8 @@ Company: Tech Corp
 Location: Remote
 
 We are looking for a skilled Software Engineer with experience in React, Node.js, and TypeScript..."
-          className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-        />
-      ) : (
-        <div className="space-y-4">
-          <input
-            type="url"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="https://example.com/job-posting"
-            className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-          />
-          <p className="text-sm text-gray-500">
-            Note: URL parsing is coming soon. For now, please copy and paste the job description.
-          </p>
-        </div>
-      )}
+        className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+      />
 
       {error && (
         <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
