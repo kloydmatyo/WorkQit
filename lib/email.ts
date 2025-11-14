@@ -142,6 +142,8 @@ export async function sendVerificationEmail(email: string, token: string, firstN
   } catch (error) {
     console.error('Email sending error:', error)
     
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
     // Fall back to console logging if email fails
     console.log(`
       📧 Email Verification Required (Fallback - Email service failed)
@@ -162,10 +164,10 @@ export async function sendVerificationEmail(email: string, token: string, firstN
       Best regards,
       The WorkQit Team
       
-      Error: ${error.message}
+      Error: ${errorMessage}
     `)
     
-    return { success: false, message: 'Email service temporarily unavailable', error: error.message }
+    return { success: false, message: 'Email service temporarily unavailable', error: errorMessage }
   }
 }
 
@@ -289,6 +291,8 @@ export async function sendPasswordResetEmail(email: string, token: string, first
   } catch (error) {
     console.error('Password reset email error:', error)
     
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
     // Fall back to console logging if email fails
     console.log(`
       🔐 Password Reset Request (Fallback - Email service failed)
@@ -309,9 +313,9 @@ export async function sendPasswordResetEmail(email: string, token: string, first
       Best regards,
       The WorkQit Team
       
-      Error: ${error.message}
+      Error: ${errorMessage}
     `)
     
-    return { success: false, message: 'Email service temporarily unavailable', error: error.message }
+    return { success: false, message: 'Email service temporarily unavailable', error: errorMessage }
   }
 }

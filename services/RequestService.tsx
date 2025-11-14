@@ -172,7 +172,7 @@ export class RequestService {
   static async uploadFile<T = any>(
     endpoint: string,
     formData: FormData,
-    config?: Omit<RequestConfig, 'method' | 'body' | 'headers'>
+    config?: Omit<RequestConfig, 'method' | 'body'>
   ): Promise<ApiResponse<T>> {
     const uploadConfig: RequestConfig = {
       ...config,

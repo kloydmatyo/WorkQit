@@ -95,28 +95,25 @@ export async function GET(
     }
 
     // Get file content based on resource type
-    let fileBuffer;
+    let fileBuffer: ArrayBuffer | null = null;
     
     if (resourceType === 'image') {
       // For image resource type PDFs, try multiple approaches
       console.log('Attempting to access image resource PDF:', publicId);
-      
-      let success = false;
       
       // Approach 1: Try direct URL first (might work for some files)
       try {
         const response = await fetch(resource.secure_url);
         if (response.ok) {
           fileBuffer = await response.arrayBuffer();
-          success = true;
           console.log('Direct URL access successful');
         }
       } catch (error) {
-        console.log('Direct URL failed:', error.message);
+        console.log('Direct URL failed:', error instanceof Error ? error.message : 'Unknown error');
       }
       
       // Approach 2: Try private download URL
-      if (!success) {
+      if (!fileBuffer) {
         try {
           const downloadUrl = cloudinary.utils.private_download_url(publicId, resource.format, {
             resource_type: 'image'
@@ -125,16 +122,15 @@ export async function GET(
           const response = await fetch(downloadUrl);
           if (response.ok) {
             fileBuffer = await response.arrayBuffer();
-            success = true;
             console.log('Private download URL successful');
           }
         } catch (error) {
-          console.log('Private download failed:', error.message);
+          console.log('Private download failed:', error instanceof Error ? error.message : 'Unknown error');
         }
       }
       
       // Approach 3: Try using Cloudinary's admin API to get resource content
-      if (!success) {
+      if (!fileBuffer) {
         try {
           // Use the admin API to get the resource and then fetch with auth headers
           const authString = Buffer.from(`${process.env.CLOUDINARY_API_KEY}:${process.env.CLOUDINARY_API_SECRET}`).toString('base64');
@@ -147,16 +143,15 @@ export async function GET(
           
           if (adminResponse.ok) {
             fileBuffer = await adminResponse.arrayBuffer();
-            success = true;
             console.log('Admin API access successful');
           }
         } catch (error) {
-          console.log('Admin API failed:', error.message);
+          console.log('Admin API failed:', error instanceof Error ? error.message : 'Unknown error');
         }
       }
       
-      // Approach 4: Last resort - try to re-upload as raw and redirect
-      if (!success) {
+      // Approach 4: Last resort - return error if all methods failed
+      if (!fileBuffer) {
         console.log('All access methods failed for image resource. This file may need migration.');
         return NextResponse.json(
           { 
@@ -174,6 +169,14 @@ export async function GET(
         return new Response('File not found', { status: 404 });
       }
       fileBuffer = await response.arrayBuffer();
+    }
+    
+    // At this point, fileBuffer is guaranteed to be assigned
+    if (!fileBuffer) {
+      return NextResponse.json(
+        { error: 'Failed to retrieve file content' },
+        { status: 500 }
+      );
     }
 
     // Set appropriate headers for PDF or other files
