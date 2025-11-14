@@ -99,6 +99,7 @@ export default function ResumeBuilderPage() {
               <ResumeBuilderForm
                 jobDescription={jobDescription}
                 jobAnalysis={jobAnalysis}
+                initialData={resumeData}
                 onSave={(data: any) => {
                   setResumeData(data);
                 }}

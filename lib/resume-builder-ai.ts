@@ -17,6 +17,7 @@ export interface ResumeData {
     location: string;
     linkedin?: string;
     portfolio?: string;
+    profilePicture?: string;
   };
   summary?: string;
   experience: Array<{

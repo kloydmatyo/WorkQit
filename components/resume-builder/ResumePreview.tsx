@@ -39,35 +39,51 @@ export default function ResumePreview({ resumeData, onEdit, onDownload }: Resume
       <div className="p-8 max-h-[700px] overflow-y-auto">
         <div className="max-w-3xl mx-auto bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
           {/* Personal Info */}
-          <div className="text-center mb-6 pb-6 border-b-2 border-gray-300">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {resumeData.personalInfo.fullName || 'Your Name'}
-            </h1>
-            <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-600">
-              {resumeData.personalInfo.email && (
-                <span>{resumeData.personalInfo.email}</span>
+          <div className="mb-6 pb-6 border-b-2 border-gray-300">
+            <div className="flex items-start gap-6">
+              {/* Profile Picture */}
+              {resumeData.personalInfo.profilePicture && (
+                <div className="flex-shrink-0">
+                  <img
+                    src={resumeData.personalInfo.profilePicture}
+                    alt={resumeData.personalInfo.fullName}
+                    className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+                  />
+                </div>
               )}
-              {resumeData.personalInfo.phone && (
-                <span>• {resumeData.personalInfo.phone}</span>
-              )}
-              {resumeData.personalInfo.location && (
-                <span>• {resumeData.personalInfo.location}</span>
-              )}
-            </div>
-            {(resumeData.personalInfo.linkedin || resumeData.personalInfo.portfolio) && (
-              <div className="flex flex-wrap justify-center gap-3 text-sm text-blue-600 mt-2">
-                {resumeData.personalInfo.linkedin && (
-                  <a href={resumeData.personalInfo.linkedin} className="hover:underline">
-                    LinkedIn
-                  </a>
-                )}
-                {resumeData.personalInfo.portfolio && (
-                  <a href={resumeData.personalInfo.portfolio} className="hover:underline">
-                    Portfolio
-                  </a>
+              
+              {/* Contact Info */}
+              <div className={resumeData.personalInfo.profilePicture ? 'flex-1 text-left' : 'flex-1 text-center'}>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  {resumeData.personalInfo.fullName || 'Your Name'}
+                </h1>
+                <div className={`flex flex-wrap ${resumeData.personalInfo.profilePicture ? 'justify-start' : 'justify-center'} gap-3 text-sm text-gray-600`}>
+                  {resumeData.personalInfo.email && (
+                    <span>{resumeData.personalInfo.email}</span>
+                  )}
+                  {resumeData.personalInfo.phone && (
+                    <span>• {resumeData.personalInfo.phone}</span>
+                  )}
+                  {resumeData.personalInfo.location && (
+                    <span>• {resumeData.personalInfo.location}</span>
+                  )}
+                </div>
+                {(resumeData.personalInfo.linkedin || resumeData.personalInfo.portfolio) && (
+                  <div className={`flex flex-wrap ${resumeData.personalInfo.profilePicture ? 'justify-start' : 'justify-center'} gap-3 text-sm text-blue-600 mt-2`}>
+                    {resumeData.personalInfo.linkedin && (
+                      <a href={resumeData.personalInfo.linkedin} className="hover:underline">
+                        LinkedIn
+                      </a>
+                    )}
+                    {resumeData.personalInfo.portfolio && (
+                      <a href={resumeData.personalInfo.portfolio} className="hover:underline">
+                        Portfolio
+                      </a>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
 
           {/* Professional Summary */}

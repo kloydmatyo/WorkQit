@@ -6,24 +6,27 @@ import { User, Briefcase, GraduationCap, Award, Code, Plus, Trash2, Sparkles, Sa
 interface ResumeBuilderFormProps {
   jobDescription: string;
   jobAnalysis: any;
+  initialData?: any;
   onSave: (data: any) => void;
   onPreview: (data: any) => void;
 }
 
 export default function ResumeBuilderForm({ 
   jobDescription, 
-  jobAnalysis, 
+  jobAnalysis,
+  initialData,
   onSave, 
   onPreview 
 }: ResumeBuilderFormProps) {
-  const [resumeData, setResumeData] = useState({
+  const [resumeData, setResumeData] = useState(initialData || {
     personalInfo: {
       fullName: '',
       email: '',
       phone: '',
       location: '',
       linkedin: '',
-      portfolio: ''
+      portfolio: '',
+      profilePicture: ''
     },
     summary: '',
     experience: [{
@@ -50,6 +53,7 @@ export default function ResumeBuilderForm({
 
   const [activeSection, setActiveSection] = useState('personal');
   const [aiLoading, setAiLoading] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
   // Generate AI summary
   const generateSummary = async () => {
@@ -147,6 +151,85 @@ export default function ResumeBuilderForm({
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
             
+            {/* Profile Picture Upload */}
+            <div className="mb-6 p-4 bg-purple-50 rounded-lg">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Profile Picture (Optional)
+              </label>
+              <div className="flex items-center gap-4">
+                {resumeData.personalInfo.profilePicture ? (
+                  <div className="relative">
+                    <img
+                      src={resumeData.personalInfo.profilePicture}
+                      alt="Profile"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                    />
+                    <button
+                      onClick={() => setResumeData(prev => ({
+                        ...prev,
+                        personalInfo: { ...prev.personalInfo, profilePicture: '' }
+                      }))}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                    >
+                      <User className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+                    <User className="w-12 h-12 text-gray-400" />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="profilePicture"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setUploadingPhoto(true);
+                        try {
+                          // Convert to base64 for preview
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setResumeData(prev => ({
+                              ...prev,
+                              personalInfo: { ...prev.personalInfo, profilePicture: reader.result as string }
+                            }));
+                          };
+                          reader.readAsDataURL(file);
+                        } catch (error) {
+                          console.error('Photo upload error:', error);
+                        } finally {
+                          setUploadingPhoto(false);
+                        }
+                      }
+                    }}
+                  />
+                  <label
+                    htmlFor="profilePicture"
+                    className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
+                  >
+                    {uploadingPhoto ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <User className="w-4 h-4" />
+                        Upload Photo
+                      </>
+                    )}
+                  </label>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Recommended: Professional headshot, square format
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -214,7 +297,7 @@ export default function ResumeBuilderForm({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  LinkedIn
+                  LinkedIn 
                 </label>
                 <input
                   type="url"
