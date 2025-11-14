@@ -4,6 +4,9 @@ import User from '@/models/User'
 import { exchangeCodeForTokens, getGoogleUserInfo } from '@/lib/google-auth'
 import { generateToken } from '@/lib/auth'
 
+// Mark this route as dynamic since it uses request.url
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     await dbConnect()
