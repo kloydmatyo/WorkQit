@@ -42,9 +42,8 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit
 
-    // Fetch jobs with population in one query
-    const jobs = await Job.find(filter)
-      .populate('employerId', 'firstName lastName email')
+    // Fetch jobs without population first to avoid errors
+    let jobs = await Job.find(filter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -52,15 +51,30 @@ export async function GET(request: NextRequest) {
 
     const total = await Job.countDocuments(filter)
 
-    // Add applicant count for employer view
+    // Try to populate employerId, but handle failures gracefully
+    try {
+      jobs = await Job.populate(jobs, {
+        path: 'employerId',
+        select: 'firstName lastName email'
+      })
+    } catch (populateError) {
+      console.warn('Could not populate employerId for some jobs:', populateError)
+      // Continue with unpopulated data
+    }
+
+    // Add applicant count for employer view and ensure employerId is present
     const jobsWithApplicantCount = jobs.map(job => {
-      if (employer === 'true') {
-        return {
-          ...job,
-          applicantCount: job.applicants ? job.applicants.length : 0
-        }
+      const jobData: any = {
+        ...job,
+        // Ensure employerId is always an object, even if population failed
+        employerId: job.employerId || null
       }
-      return job
+      
+      if (employer === 'true') {
+        jobData.applicantCount = job.applicants ? job.applicants.length : 0
+      }
+      
+      return jobData
     })
 
     return NextResponse.json({
@@ -75,7 +89,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Jobs fetch error:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
   }
