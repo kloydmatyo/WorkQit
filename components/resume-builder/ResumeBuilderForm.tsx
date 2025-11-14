@@ -113,6 +113,20 @@ export default function ResumeBuilderForm({
   };
 
   const handlePreview = () => {
+    // Validate required fields
+    if (!resumeData.personalInfo.profilePicture) {
+      alert('Please upload a profile picture before previewing your resume.');
+      setActiveSection('personal');
+      return;
+    }
+    
+    if (!resumeData.personalInfo.fullName || !resumeData.personalInfo.email || 
+        !resumeData.personalInfo.phone || !resumeData.personalInfo.location) {
+      alert('Please fill in all required personal information fields.');
+      setActiveSection('personal');
+      return;
+    }
+    
     onPreview(resumeData);
   };
 
@@ -152,10 +166,13 @@ export default function ResumeBuilderForm({
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
             
             {/* Profile Picture Upload */}
-            <div className="mb-6 p-4 bg-purple-50 rounded-lg">
+            <div className="mb-6 p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Profile Picture (Optional)
+                Profile Picture *
               </label>
+              <p className="text-xs text-gray-600 mb-3">
+                Please upload a professional headshot for your resume
+              </p>
               <div className="flex items-center gap-4">
                 {resumeData.personalInfo.profilePicture ? (
                   <div className="relative">
@@ -175,8 +192,8 @@ export default function ResumeBuilderForm({
                     </button>
                   </div>
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-                    <User className="w-12 h-12 text-gray-400" />
+                  <div className="w-24 h-24 rounded-full bg-red-100 border-2 border-red-300 flex items-center justify-center">
+                    <User className="w-12 h-12 text-red-400" />
                   </div>
                 )}
                 <div className="flex-1">
@@ -223,8 +240,8 @@ export default function ResumeBuilderForm({
                       </>
                     )}
                   </label>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Recommended: Professional headshot, square format
+                  <p className="text-xs text-red-600 font-medium mt-1">
+                    Required: Professional headshot, square format
                   </p>
                 </div>
               </div>
@@ -297,7 +314,7 @@ export default function ResumeBuilderForm({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  LinkedIn 
+                  LinkedIn (Optional)
                 </label>
                 <input
                   type="url"
@@ -313,7 +330,7 @@ export default function ResumeBuilderForm({
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Portfolio/Website
+                  Portfolio/Website (Optional)
                 </label>
                 <input
                   type="url"

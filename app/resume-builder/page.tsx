@@ -115,8 +115,8 @@ export default function ResumeBuilderPage() {
                 resumeData={resumeData}
                 onEdit={() => setStep('build')}
                 onDownload={() => {
-                  // Download functionality
-                  alert('Download feature coming soon!');
+                  // PDF download handled in ResumePreview component
+                  console.log('Resume downloaded successfully');
                 }}
               />
             )}

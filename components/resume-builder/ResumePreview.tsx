@@ -1,6 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { Download, Edit, FileText } from 'lucide-react';
+import { generateResumePDF } from '@/lib/resume-pdf-generator';
 
 interface ResumePreviewProps {
   resumeData: any;
@@ -9,6 +11,21 @@ interface ResumePreviewProps {
 }
 
 export default function ResumePreview({ resumeData, onEdit, onDownload }: ResumePreviewProps) {
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      await generateResumePDF(resumeData);
+      onDownload(); // Call the parent callback
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-lg">
       {/* Header */}
@@ -26,11 +43,21 @@ export default function ResumePreview({ resumeData, onEdit, onDownload }: Resume
             Edit
           </button>
           <button
-            onClick={onDownload}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all"
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Download className="w-4 h-4" />
-            Download PDF
+            {downloading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                Generating PDF...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Download PDF
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -102,16 +129,14 @@ export default function ResumePreview({ resumeData, onEdit, onDownload }: Resume
               <h2 className="text-xl font-bold text-gray-900 mb-3 pb-2 border-b border-gray-300">
                 SKILLS
               </h2>
-              <div className="flex flex-wrap gap-2">
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
                 {resumeData.skills.map((skill: string, idx: number) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded text-sm"
-                  >
-                    {skill}
-                  </span>
+                  <li key={idx} className="text-gray-700 flex items-start">
+                    <span className="text-gray-500 mr-2">•</span>
+                    <span>{skill}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           )}
 
