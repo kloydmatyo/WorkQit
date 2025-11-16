@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Award, Download, Share2, ExternalLink, Calendar } from 'lucide-react'
+import { Award, Download, Share2, ExternalLink, Calendar, Trophy } from 'lucide-react'
 
 export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<any[]>([])
@@ -49,94 +49,140 @@ export default function CertificatesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading certificates...</p>
+      <div className="hero-gradient relative min-h-screen flex items-center justify-center">
+        <div className="auth-background-grid" aria-hidden="true" />
+        <div className="relative z-10 text-center">
+          <div className="futuristic-loader mx-auto mb-6">
+            <div className="futuristic-loader-inner"></div>
+          </div>
+          <p className="text-lg text-secondary-600 font-medium">Loading certificates...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Certificates</h1>
-          <p className="mt-2 text-gray-600">
-            View and share your earned certificates
-          </p>
+    <div className="hero-gradient relative min-h-screen overflow-hidden">
+      <div className="auth-background-grid" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-yellow-500/30 blur-3xl animate-pulse"></div>
+        <div className="absolute right-[-10%] top-20 h-72 w-72 rounded-full bg-orange-500/25 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute left-[-10%] bottom-20 h-80 w-80 rounded-full bg-yellow-400/20 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 right-1/4 h-96 w-96 rounded-full bg-orange-400/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="mb-10">
+          <div className="relative overflow-hidden group/header mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-orange-500/5 to-yellow-500/5 opacity-0 group-hover/header:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+            <div className="relative flex items-center gap-4">
+              <div className="relative flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-500 via-orange-500 to-yellow-600 text-white shadow-xl shadow-yellow-500/40 group/icon flex-shrink-0">
+                <Trophy className="h-8 w-8 md:h-10 md:w-10 relative z-10 group-hover/icon:scale-110 group-hover/icon:rotate-12 transition-all duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/50 to-orange-400/50 rounded-2xl blur-lg opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-yellow-400/30 to-orange-400/30 rounded-2xl blur-xl opacity-0 group-hover/icon:opacity-100 animate-pulse transition-opacity duration-300"></div>
+              </div>
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+                  My Certificates
+                </h1>
+                <p className="text-lg md:text-xl text-secondary-600">
+                  View and share your earned certificates
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {certificates.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-12 text-center">
-            <Award className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No Certificates Yet</h3>
-            <p className="text-gray-600 mb-6">
-              Complete assessments to earn certificates and boost your profile
-            </p>
-            <a
-              href="/assessments"
-              className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Browse Assessments
-            </a>
+          <div className="card relative overflow-hidden group/empty hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-secondary-500/10 opacity-0 group-hover/empty:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative py-20 text-center">
+              <div className="feature-icon mx-auto mb-6 w-20 h-20">
+                <Award className="w-12 h-12 text-primary-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">No Certificates Yet</h3>
+              <p className="text-lg text-secondary-600 mb-8">
+                Complete assessments to earn certificates and boost your profile
+              </p>
+              <a
+                href="/assessments"
+                className="relative inline-flex items-center justify-center gap-3 px-8 py-4 text-base font-bold rounded-xl border-2 border-primary-500/50 bg-white/60 backdrop-blur-xl text-primary-600 shadow-xl shadow-primary-500/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/50 hover:border-primary-500/70 hover:bg-white/80 overflow-hidden group/btn"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-secondary-500/10 to-primary-500/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                <Trophy className="w-5 h-5 relative z-10 group-hover/btn:scale-125 transition-transform duration-300" />
+                <span className="relative z-10">Browse Assessments</span>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-full transition-all duration-1000"></div>
+              </a>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {certificates.map((cert) => (
-              <div key={cert._id} className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
+              <div 
+                key={cert._id} 
+                className="card relative overflow-hidden group/cert hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-secondary-500/10 opacity-0 group-hover/cert:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(234,179,8,0.15),transparent_70%)] opacity-0 group-hover/cert:opacity-100 transition-opacity duration-700"></div>
+                
                 {/* Certificate Header */}
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
-                  <Award className="w-12 h-12 mb-3" />
-                  <h3 className="text-xl font-bold mb-2">{cert.title}</h3>
-                  <p className="text-blue-100 text-sm">Certificate of Completion</p>
+                <div className="relative bg-gradient-to-r from-yellow-500 via-orange-500 to-yellow-600 p-8 text-white overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 opacity-0 group-hover/cert:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative z-10">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm mb-4 group-hover/cert:scale-110 group-hover/cert:rotate-12 transition-all duration-300">
+                      <Award className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold mb-2">{cert.title}</h3>
+                    <p className="text-yellow-100 text-base font-medium">Certificate of Completion</p>
+                  </div>
                 </div>
 
                 {/* Certificate Body */}
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(cert.difficulty)}`}>
+                <div className="relative p-8">
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    <span className={`px-4 py-2 rounded-full text-sm font-bold shadow-md ${getDifficultyColor(cert.difficulty)}`}>
                       {cert.difficulty}
                     </span>
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    <span className="px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-700 border border-blue-500/40 shadow-md">
                       {cert.category}
                     </span>
                   </div>
 
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Score:</span>
-                      <span className="font-semibold text-gray-900">{cert.score}%</span>
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center justify-between text-base">
+                      <span className="text-secondary-600 font-semibold">Score:</span>
+                      <span className="font-bold text-gray-900 text-lg">{cert.score}%</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Questions:</span>
-                      <span className="font-semibold text-gray-900">
+                    <div className="flex items-center justify-between text-base">
+                      <span className="text-secondary-600 font-semibold">Questions:</span>
+                      <span className="font-bold text-gray-900 text-lg">
                         {cert.correctAnswers}/{cert.totalQuestions}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(cert.issuedAt).toLocaleDateString()}</span>
+                    <div className="flex items-center gap-3 text-base text-secondary-600">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30">
+                        <Calendar className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <span className="font-semibold">{new Date(cert.issuedAt).toLocaleDateString()}</span>
                     </div>
                   </div>
 
-                  <div className="bg-gray-50 rounded p-3 mb-4">
-                    <p className="text-xs text-gray-600 mb-1">Certificate ID</p>
-                    <p className="text-sm font-mono font-semibold text-gray-900">{cert.certificateId}</p>
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100/50 rounded-xl p-4 mb-6 border border-gray-200/50">
+                    <p className="text-sm text-secondary-600 mb-2 font-semibold">Certificate ID</p>
+                    <p className="text-base font-mono font-bold text-gray-900 break-all">{cert.certificateId}</p>
                   </div>
 
                   {cert.skills && cert.skills.length > 0 && (
-                    <div className="mb-4">
-                      <p className="text-xs text-gray-600 mb-2">Skills Validated:</p>
-                      <div className="flex flex-wrap gap-1">
+                    <div className="mb-6">
+                      <p className="text-sm text-secondary-600 mb-3 font-semibold">Skills Validated:</p>
+                      <div className="flex flex-wrap gap-2">
                         {cert.skills.slice(0, 3).map((skill: string, idx: number) => (
-                          <span key={idx} className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                          <span key={idx} className="px-3 py-2 bg-gradient-to-r from-gray-100 to-gray-200/50 text-gray-700 rounded-lg text-sm font-semibold border border-gray-300/50 shadow-sm">
                             {skill}
                           </span>
                         ))}
                         {cert.skills.length > 3 && (
-                          <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                          <span className="px-3 py-2 bg-gradient-to-r from-gray-100 to-gray-200/50 text-gray-700 rounded-lg text-sm font-semibold border border-gray-300/50 shadow-sm">
                             +{cert.skills.length - 3} more
                           </span>
                         )}
@@ -144,22 +190,25 @@ export default function CertificatesPage() {
                     </div>
                   )}
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <button
                       onClick={() => handleShare(cert)}
-                      className="flex-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 text-sm flex items-center justify-center gap-2"
+                      className="relative flex-1 px-5 py-3 border-2 border-primary-500/30 text-primary-600 rounded-xl hover:bg-white/80 text-base font-bold flex items-center justify-center gap-2 transition-all duration-500 hover:scale-105 hover:border-primary-500/50 hover:shadow-lg overflow-hidden group/share"
                     >
-                      <Share2 className="w-4 h-4" />
-                      Share
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-secondary-500/5 to-primary-500/5 opacity-0 group-hover/share:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                      <Share2 className="w-5 h-5 relative z-10 group-hover/share:scale-125 transition-transform duration-300" />
+                      <span className="relative z-10">Share</span>
                     </button>
                     <a
                       href={cert.verificationUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm flex items-center justify-center gap-2"
+                      className="relative flex-1 px-5 py-3 border-2 border-primary-500/50 bg-white/60 backdrop-blur-xl text-primary-600 rounded-xl shadow-xl shadow-primary-500/30 hover:bg-white/80 text-base font-bold flex items-center justify-center gap-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/50 hover:border-primary-500/70 overflow-hidden group/verify"
                     >
-                      <ExternalLink className="w-4 h-4" />
-                      Verify
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-secondary-500/10 to-primary-500/10 opacity-0 group-hover/verify:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                      <ExternalLink className="w-5 h-5 relative z-10 group-hover/verify:scale-125 group-hover/verify:translate-x-1 transition-transform duration-300" />
+                      <span className="relative z-10">Verify</span>
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/verify:opacity-100 group-hover/verify:translate-x-full transition-all duration-1000"></div>
                     </a>
                   </div>
                 </div>
