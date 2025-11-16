@@ -20,26 +20,52 @@ export async function GET(request: NextRequest) {
     await dbConnect()
 
     // Fetch recent applications for the user
-    const applications = await Application.find({ 
+    let applications = await Application.find({ 
       applicantId: tokenPayload.userId 
     })
-      .populate('jobId', 'title company location type remote')
       .sort({ createdAt: -1 })
       .limit(5)
       .lean()
 
     console.log('[Dashboard Applications] Found applications:', applications.length)
 
-    const formattedApplications = applications.map((app: any) => ({
-      id: app._id.toString(),
-      jobTitle: app.jobId?.title || 'Unknown Position',
-      company: app.jobId?.company || 'Unknown Company',
-      location: app.jobId?.location,
-      jobType: app.jobId?.type,
-      remote: app.jobId?.remote,
-      status: app.status,
-      appliedDate: app.createdAt,
-    }))
+    // Manually populate jobId to handle missing references
+    const formattedApplications = []
+    for (const app of applications) {
+      try {
+        let jobData: any = null
+        if ((app as any).jobId) {
+          const Job = (await import('@/models/Job')).default
+          jobData = await Job.findById((app as any).jobId).select('title company location type remote').lean()
+        }
+
+        formattedApplications.push({
+          id: (app as any)._id.toString(),
+          jobTitle: jobData?.title || 'Position No Longer Available',
+          company: jobData?.company || 'Unknown Company',
+          location: jobData?.location,
+          jobType: jobData?.type,
+          remote: jobData?.remote,
+          status: (app as any).status,
+          appliedDate: (app as any).createdAt,
+        })
+      } catch (populateError) {
+        console.error('[Dashboard Applications] Error populating job:', populateError)
+        // Still include the application even if job data is missing
+        formattedApplications.push({
+          id: (app as any)._id.toString(),
+          jobTitle: 'Position No Longer Available',
+          company: 'Unknown Company',
+          location: undefined,
+          jobType: undefined,
+          remote: undefined,
+          status: (app as any).status,
+          appliedDate: (app as any).createdAt,
+        })
+      }
+    }
+
+    console.log('[Dashboard Applications] Formatted applications:', formattedApplications.length)
 
     return NextResponse.json({
       applications: formattedApplications,
