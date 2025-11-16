@@ -3,6 +3,7 @@ import dbConnect from '@/lib/mongoose'
 import Application from '@/models/Application'
 import Job from '@/models/Job'
 import User from '@/models/User'
+import Notification from '@/models/Notification'
 import { verifyToken } from '@/lib/auth'
 
 export async function POST(
@@ -13,9 +14,9 @@ export async function POST(
     await dbConnect()
     
     const user = await verifyToken(request)
-    if (!user || user.role !== 'job_seeker') {
+    if (!user || !['job_seeker', 'student'].includes(user.role)) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Unauthorized - Only job seekers and students can apply for jobs' },
         { status: 401 }
       )
     }
@@ -79,6 +80,24 @@ export async function POST(
     await Job.findByIdAndUpdate(jobId, {
       $addToSet: { applicants: user.userId }
     })
+
+    // Get applicant details for notification
+    const applicantDetails = await User.findById(user.userId).select('firstName lastName')
+
+    // Create notification for employer
+    try {
+      await Notification.create({
+        recipient: job.employerId,
+        sender: user.userId,
+        type: 'comment',
+        message: `📋 New application received from ${applicantDetails?.firstName} ${applicantDetails?.lastName} for ${job.title}`,
+        read: false,
+      })
+      console.log('Notification sent to employer:', job.employerId)
+    } catch (notifError) {
+      console.error('Error creating employer notification:', notifError)
+      // Don't fail the application if notification fails
+    }
 
     return NextResponse.json(
       { 

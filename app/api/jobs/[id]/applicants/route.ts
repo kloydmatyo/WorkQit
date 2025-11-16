@@ -248,6 +248,28 @@ export async function PUT(
       )
     }
 
+    // Create notification for applicant about status change
+    try {
+      const notificationMessages: Record<string, string> = {
+        accepted: `🎉 Congratulations! Your application for ${job.title} at ${job.company} has been accepted!`,
+        rejected: `Your application for ${job.title} at ${job.company} has been reviewed. Thank you for your interest.`,
+        reviewed: `Good news! Your application for ${job.title} at ${job.company} is being reviewed.`,
+        shortlisted: `Great! You've been shortlisted for ${job.title} at ${job.company}.`,
+      }
+
+      await Notification.create({
+        recipient: updatedApplication.applicantId._id,
+        sender: user.userId,
+        type: 'comment',
+        message: notificationMessages[status] || `Your application status for ${job.title} has been updated to ${status}.`,
+        read: false,
+      })
+
+      console.log('Notification created for status:', status)
+    } catch (notifError) {
+      console.error('Error creating notification:', notifError)
+    }
+
     // If accepted, automatically create conversation
     if (status === 'accepted') {
       try {
@@ -281,15 +303,6 @@ export async function PUT(
           })
 
           console.log('Conversation created successfully:', newConversation._id)
-
-          // Create notification for applicant
-          await Notification.create({
-            recipient: updatedApplication.applicantId._id,
-            sender: user.userId,
-            type: 'comment',
-            message: `Congratulations! Your application for ${job.title} at ${job.company} has been accepted!`,
-            read: false,
-          })
         } else {
           console.log('Conversation already exists, skipping creation')
         }
