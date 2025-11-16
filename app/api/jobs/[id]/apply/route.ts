@@ -21,7 +21,15 @@ export async function POST(
     }
 
     const jobId = params.id
-    const { coverLetter } = await request.json()
+    
+    let coverLetter
+    try {
+      const body = await request.json()
+      coverLetter = body.coverLetter
+    } catch (parseError) {
+      console.error('Error parsing request body:', parseError)
+      coverLetter = undefined
+    }
 
     // Check if job exists and is active
     const job = await Job.findById(jobId)
