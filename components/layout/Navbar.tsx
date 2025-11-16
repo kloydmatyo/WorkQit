@@ -33,42 +33,45 @@ export default function Navbar() {
 
   const AuthenticatedNav = () => (
     <>
-      <div className="hidden md:flex items-center gap-3">
+      <div className="hidden md:flex items-center gap-1.5 lg:gap-2 xl:gap-3">
         <Link
           href="/"
-          className={`nav-link ${isActive('/') ? 'nav-link-active' : ''}`}
+          className={`nav-link text-sm lg:text-base ${isActive('/') ? 'nav-link-active' : ''}`}
         >
           Home
         </Link>
-        <Link href="/jobs" className={`nav-link group ${isActive('/jobs') ? 'nav-link-active' : ''}`}>
+        <Link href="/jobs" className={`nav-link group text-sm lg:text-base ${isActive('/jobs') ? 'nav-link-active' : ''}`}>
           <Briefcase className="nav-icon text-secondary-500 group-hover:text-primary-500" />
           Jobs
         </Link>
         {user?.role === 'job_seeker' && (
           <>
-            <Link href="/resume-builder" className={`nav-link group ${isActive('/resume-builder') ? 'nav-link-active' : ''}`}>
+            <Link href="/resume-builder" className={`nav-link group whitespace-nowrap text-sm lg:text-base ${isActive('/resume-builder') ? 'nav-link-active' : ''}`}>
               <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-              Resume Builder
+              <span className="hidden lg:inline">Resume Builder</span>
+              <span className="lg:hidden">Resume</span>
             </Link>
-            <Link href="/applications" className={`nav-link group ${isActive('/applications') ? 'nav-link-active' : ''}`}>
+            <Link href="/applications" className={`nav-link group whitespace-nowrap text-sm lg:text-base ${isActive('/applications') ? 'nav-link-active' : ''}`}>
               <FileText className="nav-icon text-secondary-500 group-hover:text-primary-500" />
-              My Applications
+              <span className="hidden xl:inline">My Applications</span>
+              <span className="xl:hidden">Applications</span>
             </Link>
           </>
         )}
-        <Link href="/career-map" className={`nav-link group ${isActive('/career-map') ? 'nav-link-active-yellow' : ''}`}>
+        <Link href="/career-map" className={`nav-link group whitespace-nowrap text-sm lg:text-base ${isActive('/career-map') ? 'nav-link-active-yellow' : ''}`}>
           <BookOpen className={`nav-icon ${isActive('/career-map') ? 'text-yellow-500' : 'text-secondary-500 group-hover:text-primary-500'}`} />
-          Career Map
+          <span className="hidden lg:inline">Career Map</span>
+          <span className="lg:hidden">Career</span>
         </Link>
-        <Link href="/webinars" className={`nav-link group ${isActive('/webinars') ? 'nav-link-active' : ''}`}>
+        <Link href="/webinars" className={`nav-link group text-sm lg:text-base ${isActive('/webinars') ? 'nav-link-active' : ''}`}>
           <BookOpen className="nav-icon text-secondary-500 group-hover:text-primary-500" />
           Webinars
         </Link>
-        <Link href="/mentors" className={`nav-link group ${isActive('/mentors') ? 'nav-link-active' : ''}`}>
+        <Link href="/mentors" className={`nav-link group text-sm lg:text-base ${isActive('/mentors') ? 'nav-link-active' : ''}`}>
           <Users className="nav-icon text-secondary-500 group-hover:text-primary-500" />
           Mentors
         </Link>
-        <Link href="/community" className={`nav-link group ${isActive('/community') ? 'nav-link-active-green' : ''}`}>
+        <Link href="/community" className={`nav-link group text-sm lg:text-base ${isActive('/community') ? 'nav-link-active-green' : ''}`}>
           <Users className={`nav-icon ${isActive('/community') ? 'text-green-500' : 'text-secondary-500 group-hover:text-primary-500'}`} />
           Community
         </Link>
@@ -77,19 +80,23 @@ export default function Navbar() {
       <div className="relative">
         <button
           onClick={() => setShowUserMenu(!showUserMenu)}
-          className="group relative flex items-center gap-3 rounded-full border border-primary-500/40 bg-white/70 px-4 py-2.5 text-secondary-700 shadow-lg shadow-primary-700/20 backdrop-blur-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:border-primary-500/60 hover:bg-white/80 hover:text-primary-600 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
+          className="group relative flex items-center gap-2 sm:gap-3 rounded-full border border-primary-500/40 bg-white/70 px-2 sm:px-3 xl:px-4 py-2 sm:py-2.5 text-secondary-700 shadow-lg shadow-primary-700/20 backdrop-blur-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white hover:border-primary-500/60 hover:bg-white/80 hover:text-primary-600 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
         >
-          <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 text-base font-semibold text-white shadow-inner shadow-primary-900/20 ring-2 ring-primary-500/30 group-hover:ring-primary-500/60 group-hover:scale-110 transition-all duration-300">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/20 to-transparent"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-t from-primary-700/30 to-transparent"></div>
+          <div className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-500 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-primary-500/25 ring-2 ring-white/50 group-hover:scale-110 transition-all duration-300 flex-shrink-0">
             {user?.firstName?.[0] && user?.lastName?.[0] ? (
               <span className="relative z-10">{user?.firstName?.[0]}{user?.lastName?.[0]}</span>
             ) : (
-              <User className="relative z-10 h-6 w-6" />
+              <User className="relative z-10 h-4 w-4 sm:h-5 sm:w-5" />
             )}
-            <div className="absolute -inset-1 rounded-full bg-primary-500/40 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
-          <span className="hidden text-base font-semibold lg:block group-hover:text-primary-600 transition-colors duration-300">{user?.firstName}</span>
+          <div className="hidden xl:flex flex-col items-start min-w-0">
+            <span className="text-sm font-semibold text-gray-900 group-hover:text-primary-600 transition-colors duration-300 truncate max-w-[120px]">
+              {user?.firstName} {user?.lastName}
+            </span>
+            <span className="text-xs text-secondary-600 capitalize truncate max-w-[120px]">
+              {user?.role?.replace('_', ' ')}
+            </span>
+          </div>
           <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-primary-500/20 via-secondary-500/20 to-primary-500/20 opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-300 -z-10"></div>
         </button>
 
@@ -253,16 +260,16 @@ export default function Navbar() {
     <nav className="relative z-50 border-b border-white/30 bg-white/60 shadow-lg shadow-primary-900/10 backdrop-blur-2xl transition-all duration-500">
       <div className="mx-auto flex max-w-7xl flex-col px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="group flex items-center gap-3">
-              <span className="brand-logo group-hover:-translate-y-0.5 group-hover:scale-[1.06] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.35)] group-hover:animate-brandPulse">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link href="/" className="group flex items-center gap-2 sm:gap-3">
+              <span className="brand-logo text-lg sm:text-xl lg:text-2xl group-hover:-translate-y-0.5 group-hover:scale-[1.06] group-hover:shadow-[0_0_25px_rgba(59,130,246,0.35)] group-hover:animate-brandPulse">
                 WorkQit
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden items-center gap-2 md:flex">
             {loading ? (
               <div className="flex space-x-4 animate-pulse">
                 <div className="h-4 w-16 rounded-full bg-white/60"></div>

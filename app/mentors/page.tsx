@@ -365,46 +365,65 @@ export default function MentorsPage() {
 
       {/* Mentorship Request Modal */}
       {showRequestModal && selectedMentor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="w-full max-w-2xl card shadow-2xl animate-[floatUp_0.85s_ease-out]">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">
-                Request Mentorship
-              </h2>
-              <button
-                onClick={() => setShowRequestModal(false)}
-                className="rounded-lg p-2 hover:bg-gray-100 transition-colors"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="mb-6 flex items-center gap-3 rounded-xl bg-gradient-to-br from-primary-50 to-secondary-50 p-4 border border-primary-100">
-              {selectedMentor.profile.profilePicture ? (
-                <img
-                  src={selectedMentor.profile.profilePicture}
-                  alt={`${selectedMentor.firstName} ${selectedMentor.lastName}`}
-                  className="h-12 w-12 rounded-full object-cover"
-                />
-              ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 text-lg font-bold text-white">
-                  {selectedMentor.firstName[0]}
-                  {selectedMentor.lastName[0]}
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-[fadeIn_0.3s_ease-out]">
+          <div className="w-full max-w-2xl rounded-2xl border-2 border-white/40 bg-white backdrop-blur-xl shadow-2xl animate-[floatUp_0.5s_ease-out] flex flex-col max-h-[90vh]">
+            
+            {/* Modal Header with Gradient */}
+            <div className="relative bg-gradient-to-br from-primary-500 to-secondary-500 p-6 pb-8 rounded-t-2xl flex-shrink-0">
+              <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 rounded-t-2xl"></div>
+              <div className="relative flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg ring-4 ring-white/30">
+                    <MessageCircle className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-white mb-1">
+                      Request Mentorship
+                    </h2>
+                    <p className="text-white/90 text-sm">
+                      Connect with your future mentor
+                    </p>
+                  </div>
                 </div>
-              )}
-              <div>
-                <h3 className="font-semibold text-gray-900">
-                  {selectedMentor.firstName} {selectedMentor.lastName}
-                </h3>
-                <p className="text-sm text-secondary-600">
-                  {selectedMentor.profile.experience}
-                </p>
+                <button
+                  onClick={() => setShowRequestModal(false)}
+                  className="text-white/80 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
+                >
+                  <X className="h-6 w-6" />
+                </button>
               </div>
             </div>
 
-            <div className="space-y-4">
+            {/* Mentor Info Card */}
+            <div className="flex-shrink-0 p-6 bg-gradient-to-br from-primary-50 to-secondary-50 border-b-2 border-primary-100">
+              <div className="flex items-center gap-4">
+                {selectedMentor.profile.profilePicture ? (
+                  <img
+                    src={selectedMentor.profile.profilePicture}
+                    alt={`${selectedMentor.firstName} ${selectedMentor.lastName}`}
+                    className="h-16 w-16 rounded-full object-cover ring-4 ring-white shadow-lg"
+                  />
+                ) : (
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 text-xl font-bold text-white shadow-lg ring-4 ring-white">
+                    {selectedMentor.firstName[0]}
+                    {selectedMentor.lastName[0]}
+                  </div>
+                )}
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {selectedMentor.firstName} {selectedMentor.lastName}
+                  </h3>
+                  <p className="text-sm text-secondary-600 font-medium">
+                    {selectedMentor.profile.experience}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Form Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-6 bg-gray-50 space-y-5">
               <div>
-                <label className="auth-label">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Message *
                 </label>
                 <textarea
@@ -414,13 +433,13 @@ export default function MentorsPage() {
                   }
                   placeholder="Introduce yourself and explain why you'd like this person as your mentor..."
                   rows={4}
-                  className="auth-input w-full resize-none"
+                  className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 resize-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="auth-label">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Your Goals (comma-separated)
                 </label>
                 <input
@@ -430,12 +449,12 @@ export default function MentorsPage() {
                     setRequestForm({ ...requestForm, goals: e.target.value })
                   }
                   placeholder="e.g., Career transition, Skill development, Interview prep"
-                  className="auth-input w-full"
+                  className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 />
               </div>
 
               <div>
-                <label className="auth-label">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Preferred Topics (comma-separated)
                 </label>
                 <input
@@ -448,12 +467,12 @@ export default function MentorsPage() {
                     })
                   }
                   placeholder="e.g., React, System Design, Leadership"
-                  className="auth-input w-full"
+                  className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 shadow-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 />
               </div>
 
               <div>
-                <label className="auth-label">
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
                   Meeting Frequency
                 </label>
                 <select
@@ -464,7 +483,7 @@ export default function MentorsPage() {
                       meetingFrequency: e.target.value as any,
                     })
                   }
-                  className="auth-input w-full"
+                  className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   <option value="weekly">Weekly</option>
                   <option value="biweekly">Bi-weekly</option>
@@ -473,21 +492,34 @@ export default function MentorsPage() {
               </div>
             </div>
 
-            <div className="mt-6 flex gap-3">
-              <button
-                onClick={() => setShowRequestModal(false)}
-                className="btn-secondary flex-1"
-                disabled={submitting}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={submitMentorshipRequest}
-                disabled={submitting || !requestForm.message}
-                className="btn-primary flex-1"
-              >
-                {submitting ? 'Sending...' : 'Send Request'}
-              </button>
+            {/* Modal Footer */}
+            <div className="flex-shrink-0 border-t-2 border-gray-200 bg-white p-6 rounded-b-2xl">
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowRequestModal(false)}
+                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-colors"
+                  disabled={submitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={submitMentorshipRequest}
+                  disabled={submitting || !requestForm.message}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-secondary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                >
+                  {submitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <MessageCircle className="w-4 h-4" />
+                      Send Request
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

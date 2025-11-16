@@ -1283,3 +1283,14 @@
     }
   }
 }
+  /* S
+tat Card Styles */
+  .stat-card {
+    @apply rounded-2xl border border-white/40 bg-white/60 shadow-xl shadow-primary-700/10 backdrop-blur-xl transition-all duration-500 hover:shadow-2xl hover:shadow-primary-700/20;
+    animation: floatUp 0.6s ease-out both;
+    animation-delay: var(--float-delay, 0s);
+  }
+
+  .stat-number {
+    @apply text-3xl font-bold text-gray-900;
+  }
