@@ -132,17 +132,25 @@ export function useBaseQuery<T>(
     try {
       const response = await queryFn()
       
-      if (!mountedRef.current) return
+      // Only update state if component is still mounted
+      if (!mountedRef.current) {
+        return
+      }
       
       if (response.success) {
         setData(response.data as T)
         setError(null)
         retryCountRef.current = 0
+        setLoading(false)
       } else {
-        throw new Error(response.error || 'Query failed')
+        const errorMsg = response.error || `Query failed with status ${response.status}`
+        throw new Error(errorMsg)
       }
     } catch (err) {
-      if (!mountedRef.current) return
+      // Check if component is still mounted before handling error
+      if (!mountedRef.current) {
+        return
+      }
       
       const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
       
@@ -158,12 +166,25 @@ export function useBaseQuery<T>(
       }
       
       setError(errorMessage)
+      setLoading(false)
     } finally {
-      if (mountedRef.current && !isRetry) {
+      if (!isRetry && mountedRef.current) {
         setLoading(false)
       }
     }
   }, [enabled, queryFn, retry, retryDelay, setData, setLoading, setError])
+
+  // Mount/unmount tracking and cleanup
+  useEffect(() => {
+    mountedRef.current = true
+    
+    return () => {
+      mountedRef.current = false
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
+  }, [])
 
   // Initial fetch
   useEffect(() => {
@@ -183,16 +204,6 @@ export function useBaseQuery<T>(
     window.addEventListener('focus', handleFocus)
     return () => window.removeEventListener('focus', handleFocus)
   }, [refetchOnWindowFocus, enabled, executeQuery])
-
-  // Cleanup
-  useEffect(() => {
-    return () => {
-      mountedRef.current = false
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort()
-      }
-    }
-  }, [])
 
   const refetch = useCallback(() => {
     executeQuery()
