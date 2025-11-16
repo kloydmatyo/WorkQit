@@ -41,11 +41,15 @@ export default function InterviewPrepPage() {
 
     setLoading(true)
     setError('')
+    setAiResponse(null)
 
     try {
+      console.log('Generating tips for:', { jobRole, experience, industry })
+      
       const response = await fetch('/api/ai/interview-tips', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({
           jobRole,
           experience,
@@ -53,11 +57,16 @@ export default function InterviewPrepPage() {
         }),
       })
 
+      console.log('Response status:', response.status)
+
       if (response.ok) {
         const data = await response.json()
+        console.log('Received data:', data)
         setAiResponse(data)
       } else {
-        setError('Failed to generate tips. Please try again.')
+        const errorData = await response.json().catch(() => ({}))
+        console.error('Error response:', errorData)
+        setError(errorData.error || 'Failed to generate tips. Please try again.')
       }
     } catch (err) {
       console.error('Error generating tips:', err)
@@ -212,7 +221,7 @@ export default function InterviewPrepPage() {
         {aiResponse && (
           <div className="mb-8 space-y-6">
             {/* Tips by Category */}
-            {aiResponse.tips.map((tipCategory, idx) => (
+            {aiResponse.tips && Array.isArray(aiResponse.tips) && aiResponse.tips.map((tipCategory, idx) => (
               <div key={idx} className="card">
                 <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
                   <Lightbulb className="h-5 w-5 text-primary-600" />
@@ -230,7 +239,7 @@ export default function InterviewPrepPage() {
             ))}
 
             {/* Common Questions */}
-            {aiResponse.commonQuestions.length > 0 && (
+            {aiResponse.commonQuestions && Array.isArray(aiResponse.commonQuestions) && aiResponse.commonQuestions.length > 0 && (
               <div className="card">
                 <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
                   <MessageCircle className="h-5 w-5 text-purple-600" />
@@ -250,7 +259,7 @@ export default function InterviewPrepPage() {
             )}
 
             {/* Preparation Steps */}
-            {aiResponse.preparationSteps.length > 0 && (
+            {aiResponse.preparationSteps && Array.isArray(aiResponse.preparationSteps) && aiResponse.preparationSteps.length > 0 && (
               <div className="card">
                 <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold text-gray-900">
                   <Target className="h-5 w-5 text-blue-600" />

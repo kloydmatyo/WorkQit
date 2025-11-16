@@ -59,16 +59,34 @@ Make the tips specific, actionable, and relevant to the role.`;
       // Try to parse JSON from AI response
       let parsedResponse;
       try {
-        // Handle both string and object responses
+        let contentString = '';
+        
+        // Handle different output formats
         if (typeof output === 'string') {
+          contentString = output;
+        } else if (output && typeof output === 'object') {
+          // Check if it's the Bytez response format with role and content
+          if ('content' in output && typeof output.content === 'string') {
+            contentString = output.content;
+          } else if ('role' in output && 'content' in output) {
+            contentString = output.content;
+          } else {
+            // If it's already a parsed object, use it directly
+            parsedResponse = output;
+          }
+        }
+
+        // If we have a content string, parse it
+        if (contentString && !parsedResponse) {
           // Extract JSON from markdown code blocks if present
-          const jsonMatch = output.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
-          const jsonString = jsonMatch ? jsonMatch[1] : output;
+          const jsonMatch = contentString.match(/```(?:json)?\s*(\{[\s\S]*\})\s*```/);
+          const jsonString = jsonMatch ? jsonMatch[1] : contentString;
           parsedResponse = JSON.parse(jsonString);
-        } else if (typeof output === 'object') {
-          parsedResponse = output;
-        } else {
-          throw new Error('Unexpected output type');
+        }
+
+        // If we still don't have a parsed response, throw error
+        if (!parsedResponse) {
+          throw new Error('Could not parse AI response');
         }
       } catch (parseError) {
         // If AI response isn't valid JSON, create a structured fallback
