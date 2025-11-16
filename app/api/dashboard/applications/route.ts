@@ -1,49 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { verifyToken } from '@/lib/auth'
 import dbConnect from '@/lib/mongoose'
 import Application from '@/models/Application'
-import Job from '@/models/Job'
-import { verifyToken } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
-    await dbConnect()
+    const tokenPayload = await verifyToken(request)
     
-    const user = await verifyToken(request)
-    if (!user) {
+    if (!tokenPayload) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    // Get user's recent applications with job details
-    const applications = await Application.find({ applicantId: user.userId })
-      .populate({
-        path: 'jobId',
-        select: 'title company type location remote'
-      })
-      .sort({ createdAt: -1 })
-      .limit(10)
+    await dbConnect()
 
-    const formattedApplications = applications.map(app => ({
-      id: app._id,
-      jobTitle: app.jobId?.title || 'Job Title Not Available',
-      company: app.jobId?.company || 'Company Not Available',
-      status: app.status,
-      appliedDate: app.createdAt,
-      jobType: app.jobId?.type,
-      location: app.jobId?.location,
-      remote: app.jobId?.remote
-    }))
+    // Fetch recent applications for the user
+    const applications = await Application.find({ 
+      applicantId: tokenPayload.userId 
+    })
+      .populate('jobId', 'title company location type remote')
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean()
 
     return NextResponse.json({
-      applications: formattedApplications
+      applications: applications.map((app: any) => ({
+        id: app._id.toString(),
+        jobTitle: app.jobId?.title || 'Unknown Position',
+        company: app.jobId?.company || 'Unknown Company',
+        location: app.jobId?.location,
+        jobType: app.jobId?.type,
+        remote: app.jobId?.remote,
+        status: app.status,
+        appliedDate: app.createdAt,
+      })),
     })
-
   } catch (error) {
-    console.error('Dashboard applications error:', error)
+    console.error('Error fetching dashboard applications:', error)
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch applications' },
       { status: 500 }
     )
   }
