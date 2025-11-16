@@ -11,7 +11,8 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  ArrowRight
+  ArrowRight,
+  GraduationCap
 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import ProfileCard from '@/components/ProfileCard'
@@ -143,275 +144,338 @@ export default function MentorHomepage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
-      {/* Welcome Banner */}
-      <div className="relative overflow-hidden border-b border-white/30 bg-white/60 backdrop-blur-xl">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute right-10 top-[-40%] h-56 w-56 rounded-full bg-primary-500/20 blur-3xl"></div>
-          <div className="absolute left-[-20%] top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-secondary-500/15 blur-3xl"></div>
-        </div>
-        <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <h1 className="mb-2 text-2xl font-bold text-gray-900">
-            Welcome back, {user?.firstName || 'Mentor'}! 🎓
-          </h1>
-          <p className="text-secondary-600">
-            Manage your webinars, track your impact, and inspire the next generation
-          </p>
-        </div>
+    <div className="hero-gradient relative min-h-screen overflow-hidden">
+      <div className="auth-background-grid" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-purple-500/30 blur-3xl animate-pulse"></div>
+        <div className="absolute right-[-10%] top-20 h-72 w-72 rounded-full bg-blue-500/25 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute left-[-10%] bottom-20 h-80 w-80 rounded-full bg-purple-400/20 blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 right-1/4 h-96 w-96 rounded-full bg-blue-400/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
       </div>
 
-      {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="relative z-10">
+        {/* Welcome Banner */}
+        <div className="relative overflow-hidden border-b border-white/30 bg-white/60 backdrop-blur-xl">
+          <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div className="relative overflow-hidden group/header mb-4">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover/header:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+              <div className="relative flex items-center gap-4">
+                <div className="relative flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 via-blue-600 to-purple-600 text-white shadow-xl shadow-purple-500/40 group/icon flex-shrink-0">
+                  <GraduationCap className="h-8 w-8 md:h-10 md:w-10 relative z-10 group-hover/icon:scale-110 group-hover/icon:rotate-12 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400/50 to-blue-400/50 rounded-2xl blur-lg opacity-0 group-hover/icon:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-2xl blur-xl opacity-0 group-hover/icon:opacity-100 animate-pulse transition-opacity duration-300"></div>
+                </div>
+                <div>
+                  <h1 className="mb-2 text-4xl md:text-5xl font-bold text-gray-900">
+                    Welcome back, {user?.firstName || 'Mentor'}! 🎓
+                  </h1>
+                  <p className="text-lg md:text-xl text-secondary-600">
+                    Manage your webinars, track your impact, and inspire the next generation
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Stats Grid */}
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div className="card group">
-            <div className="flex items-center justify-between">
+        <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="card relative overflow-hidden group/stat hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-blue-500/10 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_70%)] opacity-0 group-hover/stat:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center justify-between p-8">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total Webinars</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{stats.totalWebinars}</p>
+                <p className="text-base font-bold text-secondary-600">Total Webinars</p>
+                <p className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">{stats.totalWebinars}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
-                <Video className="h-6 w-6" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 group-hover/stat:scale-110 group-hover/stat:rotate-12 transition-all duration-300">
+                <Video className="h-8 w-8 text-blue-600" />
               </div>
             </div>
           </div>
 
-          <div className="card group">
-            <div className="flex items-center justify-between">
+          <div className="card relative overflow-hidden group/stat hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-500/10 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(147,51,234,0.15),transparent_70%)] opacity-0 group-hover/stat:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center justify-between p-8">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Upcoming</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{stats.upcomingWebinars}</p>
+                <p className="text-base font-bold text-secondary-600">Upcoming</p>
+                <p className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">{stats.upcomingWebinars}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600">
-                <Calendar className="h-6 w-6" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 group-hover/stat:scale-110 group-hover/stat:rotate-12 transition-all duration-300">
+                <Calendar className="h-8 w-8 text-purple-600" />
               </div>
             </div>
           </div>
 
-          <div className="card group">
-            <div className="flex items-center justify-between">
+          <div className="card relative overflow-hidden group/stat hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-500/10 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15),transparent_70%)] opacity-0 group-hover/stat:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center justify-between p-8">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Total Attendees</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{stats.totalAttendees}</p>
+                <p className="text-base font-bold text-secondary-600">Total Attendees</p>
+                <p className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">{stats.totalAttendees}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
-                <Users className="h-6 w-6" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 group-hover/stat:scale-110 group-hover/stat:rotate-12 transition-all duration-300">
+                <Users className="h-8 w-8 text-green-600" />
               </div>
             </div>
           </div>
 
-          <div className="card group">
-            <div className="flex items-center justify-between">
+          <div className="card relative overflow-hidden group/stat hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-transparent to-orange-500/10 opacity-0 group-hover/stat:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.15),transparent_70%)] opacity-0 group-hover/stat:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center justify-between p-8">
               <div>
-                <p className="text-sm font-medium text-secondary-600">Completed</p>
-                <p className="mt-2 text-3xl font-bold text-gray-900">{stats.completedWebinars}</p>
+                <p className="text-base font-bold text-secondary-600">Completed</p>
+                <p className="mt-3 text-3xl md:text-4xl font-bold text-gray-900">{stats.completedWebinars}</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-100 text-orange-600">
-                <CheckCircle className="h-6 w-6" />
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-orange-600/20 border border-orange-500/30 group-hover/stat:scale-110 group-hover/stat:rotate-12 transition-all duration-300">
+                <CheckCircle className="h-8 w-8 text-orange-600" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           <Link
             href="/webinars/create"
-            className="card group flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="card relative overflow-hidden group/action hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-600">
-              <Plus className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Create Webinar</h3>
-              <p className="text-sm text-secondary-600">Schedule a new session</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-primary-500/10 opacity-0 group-hover/action:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_70%)] opacity-0 group-hover/action:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center gap-5 p-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-600/20 border border-primary-500/30 group-hover/action:scale-110 group-hover/action:rotate-12 transition-all duration-300">
+                <Plus className="h-8 w-8 text-primary-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Create Webinar</h3>
+                <p className="text-base text-secondary-600">Schedule a new session</p>
+              </div>
             </div>
           </Link>
 
           <Link
             href="/webinars"
-            className="card group flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="card relative overflow-hidden group/action hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
-              <Video className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">All Webinars</h3>
-              <p className="text-sm text-secondary-600">View all sessions</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-blue-500/10 opacity-0 group-hover/action:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_70%)] opacity-0 group-hover/action:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center gap-5 p-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 group-hover/action:scale-110 group-hover/action:rotate-12 transition-all duration-300">
+                <Video className="h-8 w-8 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">All Webinars</h3>
+                <p className="text-base text-secondary-600">View all sessions</p>
+              </div>
             </div>
           </Link>
 
           <Link
             href="/mentorship/requests"
-            className="card group flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-xl relative"
+            className="card relative overflow-hidden group/action hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
-              <Users className="h-6 w-6" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-gray-900">Mentorship Requests</h3>
-              <p className="text-sm text-secondary-600">View requests</p>
-            </div>
-            {stats.pendingRequests && stats.pendingRequests > 0 && (
-              <div className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-lg ring-2 ring-white">
-                {stats.pendingRequests}
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-500/10 opacity-0 group-hover/action:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.15),transparent_70%)] opacity-0 group-hover/action:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center gap-5 p-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 group-hover/action:scale-110 group-hover/action:rotate-12 transition-all duration-300">
+                <Users className="h-8 w-8 text-green-600" />
               </div>
-            )}
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-gray-900">Mentorship Requests</h3>
+                <p className="text-base text-secondary-600">View requests</p>
+              </div>
+              {stats.pendingRequests && stats.pendingRequests > 0 && (
+                <div className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 text-sm font-bold text-white shadow-xl ring-2 ring-white group-hover/action:scale-110 transition-transform">
+                  {stats.pendingRequests}
+                </div>
+              )}
+            </div>
           </Link>
 
           <Link
             href="/profile"
-            className="card group flex items-center gap-4 transition-all hover:-translate-y-1 hover:shadow-xl"
+            className="card relative overflow-hidden group/action hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600">
-              <TrendingUp className="h-6 w-6" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900">Update Profile</h3>
-              <p className="text-sm text-secondary-600">Manage your info</p>
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-transparent to-purple-500/10 opacity-0 group-hover/action:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(147,51,234,0.15),transparent_70%)] opacity-0 group-hover/action:opacity-100 transition-opacity duration-700"></div>
+            <div className="relative flex items-center gap-5 p-8">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30 group-hover/action:scale-110 group-hover/action:rotate-12 transition-all duration-300">
+                <TrendingUp className="h-8 w-8 text-purple-600" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900">Update Profile</h3>
+                <p className="text-base text-secondary-600">Manage your info</p>
+              </div>
             </div>
           </Link>
         </div>
 
         {/* Webinars List */}
-        <div className="card">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">Your Webinars</h2>
-            <Link
-              href="/webinars/create"
-              className="btn-primary px-4 py-2 text-sm"
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              Create New
-            </Link>
-          </div>
+        <div className="card relative overflow-hidden group/webinars hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 mb-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-secondary-500/5 opacity-0 group-hover/webinars:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative p-8">
+            <div className="mb-8 flex items-center justify-between">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Your Webinars</h2>
+              <Link
+                href="/webinars/create"
+                className="relative flex items-center justify-center gap-2 px-6 py-3 text-base font-bold rounded-xl border-2 border-primary-500/50 bg-white/60 backdrop-blur-xl text-primary-600 shadow-xl shadow-primary-500/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/50 hover:border-primary-500/70 hover:bg-white/80 overflow-hidden group/btn"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-secondary-500/10 to-primary-500/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                <Plus className="h-5 w-5 relative z-10 group-hover/btn:rotate-90 transition-transform duration-300" />
+                <span className="relative z-10">Create New</span>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-full transition-all duration-1000"></div>
+              </Link>
+            </div>
 
           {loading ? (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="animate-pulse rounded-xl bg-white/50 p-4">
-                  <div className="mb-2 h-6 w-3/4 rounded bg-white/70"></div>
-                  <div className="h-4 w-1/2 rounded bg-white/70"></div>
+                <div key={i} className="animate-pulse rounded-xl bg-white/50 p-6">
+                  <div className="mb-3 h-7 w-3/4 rounded bg-white/70"></div>
+                  <div className="h-5 w-1/2 rounded bg-white/70"></div>
                 </div>
               ))}
             </div>
           ) : webinars.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-primary-500/40 bg-white/40 py-12 text-center backdrop-blur">
-              <Video className="mx-auto mb-4 h-12 w-12 text-secondary-400" />
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">
+            <div className="rounded-2xl border-2 border-dashed border-primary-500/40 bg-white/40 py-16 text-center backdrop-blur">
+              <div className="feature-icon mx-auto mb-6 w-20 h-20">
+                <Video className="w-12 h-12 text-primary-500" />
+              </div>
+              <h3 className="mb-3 text-2xl font-bold text-gray-900">
                 No webinars yet
               </h3>
-              <p className="mb-4 text-secondary-600">
+              <p className="mb-6 text-lg text-secondary-600">
                 Create your first webinar to start sharing your expertise
               </p>
               <Link
                 href="/webinars/create"
-                className="btn-primary px-6 py-2 text-sm"
+                className="relative inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold rounded-xl border-2 border-primary-500/50 bg-white/60 backdrop-blur-xl text-primary-600 shadow-xl shadow-primary-500/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/50 hover:border-primary-500/70 hover:bg-white/80 overflow-hidden group/btn"
               >
-                <Plus className="mr-2 h-4 w-4" />
-                Create Webinar
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-secondary-500/10 to-primary-500/10 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500 rounded-xl"></div>
+                <Plus className="h-5 w-5 relative z-10 group-hover/btn:rotate-90 transition-transform duration-300" />
+                <span className="relative z-10">Create Webinar</span>
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-full transition-all duration-1000"></div>
               </Link>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {webinars.slice(0, 5).map((webinar) => (
                 <Link
                   key={webinar._id}
                   href={`/webinars/${webinar._id}`}
-                  className="group flex items-center justify-between rounded-xl border border-white/40 bg-white/60 p-4 shadow-inner shadow-primary-900/5 backdrop-blur transition-all hover:border-primary-500/40 hover:shadow-lg"
+                  className="group relative flex items-center justify-between rounded-2xl border-2 border-white/40 bg-white/60 p-6 shadow-inner shadow-primary-900/5 backdrop-blur transition-all duration-500 hover:border-primary-500/40 hover:shadow-2xl hover:shadow-primary-500/30 hover:-translate-y-1 hover:scale-[1.01] overflow-hidden"
                 >
-                  <div className="flex-1">
-                    <div className="mb-2 flex items-center gap-2">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-primary-600">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-transparent to-primary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="relative flex-1">
+                    <div className="mb-3 flex items-center gap-3">
+                      <h3 className="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
                         {webinar.title}
                       </h3>
                       <span
-                        className={`rounded-full border px-2 py-0.5 text-xs font-medium ${getStatusColor(
+                        className={`rounded-full border-2 px-4 py-1.5 text-sm font-bold shadow-md ${getStatusColor(
                           webinar.status
                         )}`}
                       >
                         {webinar.status}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-secondary-600">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-4 w-4" />
-                        {formatDate(webinar.scheduledDate)}
+                    <div className="flex items-center gap-6 text-base text-secondary-600">
+                      <span className="flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/20 border border-purple-500/30">
+                          <Calendar className="h-4 w-4 text-purple-600" />
+                        </div>
+                        <span className="font-semibold">{formatDate(webinar.scheduledDate)}</span>
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {webinar.duration} min
+                      <span className="flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30">
+                          <Clock className="h-4 w-4 text-blue-600" />
+                        </div>
+                        <span className="font-semibold">{webinar.duration} min</span>
                       </span>
-                      <span className="flex items-center gap-1">
-                        <Users className="h-4 w-4" />
-                        {webinar.attendees.length} registered
+                      <span className="flex items-center gap-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30">
+                          <Users className="h-4 w-4 text-green-600" />
+                        </div>
+                        <span className="font-semibold">{webinar.attendees.length} registered</span>
                       </span>
                     </div>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-secondary-400 transition-transform group-hover:translate-x-1 group-hover:text-primary-600" />
+                  <ArrowRight className="h-6 w-6 text-secondary-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-primary-600 group-hover:scale-110 relative z-10" />
                 </Link>
               ))}
               
               {webinars.length > 5 && (
                 <Link
                   href="/webinars"
-                  className="block text-center text-sm font-medium text-primary-600 hover:text-primary-500"
+                  className="block text-center text-lg font-bold text-primary-600 hover:text-primary-500 transition-colors"
                 >
                   View all {webinars.length} webinars →
                 </Link>
               )}
             </div>
           )}
+          </div>
         </div>
 
         {/* Profile and Tips Section */}
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Profile Card */}
           <ProfileCard userProfile={userProfile} />
 
           {/* Tips Cards */}
-          <div className="lg:col-span-2 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="card border-blue-200/50 bg-blue-50/50">
-            <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
-                <AlertCircle className="h-5 w-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900">Mentor Tips</h3>
-            </div>
-            <ul className="space-y-2 text-sm text-secondary-700">
-              <li className="flex items-start gap-2">
-                <span className="text-blue-600">•</span>
-                <span>Create engaging webinar titles that clearly describe the topic</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-600">•</span>
-                <span>Add your Google Meet link before the webinar starts</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-blue-600">•</span>
-                <span>Engage with attendees through Q&A sessions</span>
-              </li>
-            </ul>
-          </div>
-
-            <div className="card border-green-200/50 bg-green-50/50">
-              <div className="mb-3 flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100 text-green-600">
-                  <TrendingUp className="h-5 w-5" />
+          <div className="lg:col-span-2 grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="card relative overflow-hidden group/tips hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 border-2 border-blue-200/50 bg-blue-50/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-blue-500/10 opacity-0 group-hover/tips:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative p-8">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 group-hover/tips:scale-110 group-hover/tips:rotate-12 transition-all duration-300">
+                    <AlertCircle className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">Mentor Tips</h3>
                 </div>
-                <h3 className="font-semibold text-gray-900">Your Impact</h3>
+                <ul className="space-y-3 text-base text-secondary-700">
+                  <li className="flex items-start gap-3">
+                    <span className="text-xl font-bold text-blue-600">•</span>
+                    <span className="font-semibold">Create engaging webinar titles that clearly describe the topic</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-xl font-bold text-blue-600">•</span>
+                    <span className="font-semibold">Add your Google Meet link before the webinar starts</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-xl font-bold text-blue-600">•</span>
+                    <span className="font-semibold">Engage with attendees through Q&A sessions</span>
+                  </li>
+                </ul>
               </div>
-              <p className="mb-3 text-sm text-secondary-700">
-                You've helped {stats.totalAttendees} job seekers through your webinars!
-              </p>
-              <div className="text-xs text-secondary-600">
-                Keep up the great work. Your expertise is making a real difference in people's careers.
+            </div>
+
+            <div className="card relative overflow-hidden group/impact hover:shadow-2xl hover:shadow-primary-500/30 transition-all duration-500 border-2 border-green-200/50 bg-green-50/50">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-green-500/10 opacity-0 group-hover/impact:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative p-8">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 group-hover/impact:scale-110 group-hover/impact:rotate-12 transition-all duration-300">
+                    <TrendingUp className="h-6 w-6 text-green-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900">Your Impact</h3>
+                </div>
+                <p className="mb-4 text-lg font-bold text-secondary-700">
+                  You've helped {stats.totalAttendees} job seekers through your webinars!
+                </p>
+                <div className="text-base text-secondary-600 font-medium">
+                  Keep up the great work. Your expertise is making a real difference in people's careers.
+                </div>
               </div>
             </div>
           </div>
         </div>
+        </div>
       </div>
-
     </div>
   )
 }
