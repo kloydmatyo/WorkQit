@@ -7,7 +7,6 @@ import {
   User,
   Bell,
   Edit,
-  ChevronRight,
   Briefcase,
   Calendar,
   TrendingUp,
@@ -102,7 +101,6 @@ export default function JobSeekerHomepage() {
   }, []);
 
   useEffect(() => {
-    // Check onboarding status when user is available
     if (user?.role === 'job_seeker') {
       checkOnboardingStatus();
     }
@@ -118,7 +116,6 @@ export default function JobSeekerHomepage() {
         const data = await response.json();
         console.log('✅ Onboarding status data:', data);
         
-        // Show onboarding if not completed
         if (!data.onboarding?.completed) {
           console.log('🎯 Opening onboarding modal - onboarding not completed');
           setShowOnboarding(true);
@@ -137,7 +134,6 @@ export default function JobSeekerHomepage() {
     try {
       setLoading(true);
 
-      // Fetch all data in parallel
       const [profileRes, statsRes, applicationsRes, notificationsRes] =
         await Promise.all([
           fetch("/api/user/profile", { credentials: 'include' }),
@@ -167,12 +163,10 @@ export default function JobSeekerHomepage() {
         setApplications(applicationsData.applications || []);
       }
 
-      // Mock notifications if API doesn't exist
       if (notificationsRes.ok) {
         const notificationsData = await notificationsRes.json();
         setNotifications(notificationsData.notifications || []);
       } else {
-        // Fallback mock notifications
         setNotifications([
           {
             id: "1",
@@ -195,7 +189,6 @@ export default function JobSeekerHomepage() {
         ]);
       }
 
-      // Fetch AI recommendations separately after profile is loaded
       fetchAIRecommendations();
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
@@ -218,7 +211,6 @@ export default function JobSeekerHomepage() {
         setRecommendations(data.recommendations || []);
       } else {
         console.error('❌ Failed to fetch AI recommendations:', response.status);
-        // Fallback to regular recommendations if AI fails
         const fallbackRes = await fetch('/api/dashboard/recommendations?limit=6', { credentials: 'include' });
         if (fallbackRes.ok) {
           const fallbackData = await fallbackRes.json();
@@ -232,25 +224,23 @@ export default function JobSeekerHomepage() {
     }
   };
 
-
-
   if (loading) {
     return (
-      <div className="hero-gradient relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="hero-gradient relative min-h-screen flex items-center justify-center overflow-hidden px-4">
         <div className="auth-background-grid" aria-hidden="true" />
         {isEntering && <div className="auth-entry-overlay" />}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-500/20 blur-3xl animate-pulse"></div>
-          <div className="absolute right-1/4 top-1/3 h-72 w-72 rounded-full bg-secondary-500/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute left-1/2 top-1/2 h-48 w-48 sm:h-64 sm:w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-500/20 blur-3xl animate-pulse"></div>
+          <div className="absolute right-1/4 top-1/3 h-56 w-56 sm:h-72 sm:w-72 rounded-full bg-secondary-500/15 blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
         </div>
         <div className="text-center relative z-10 animate-[floatUp_0.85s_ease-out]">
           <div className="futuristic-loader mx-auto mb-6">
             <div className="futuristic-loader-inner"></div>
           </div>
-          <h2 className="auth-title text-2xl font-bold mb-3">
+          <h2 className="auth-title text-xl sm:text-2xl font-bold mb-3">
             Loading Your Dashboard...
           </h2>
-          <p className="auth-subtitle">Please wait while we fetch your data</p>
+          <p className="auth-subtitle text-sm sm:text-base">Please wait while we fetch your data</p>
         </div>
       </div>
     );
@@ -258,7 +248,7 @@ export default function JobSeekerHomepage() {
 
   if (error) {
     return (
-      <div className="hero-gradient relative min-h-screen flex items-center justify-center">
+      <div className="hero-gradient relative min-h-screen flex items-center justify-center px-4">
         <div className="auth-background-grid" aria-hidden="true" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="glass-alert glass-alert-error">
@@ -284,23 +274,29 @@ export default function JobSeekerHomepage() {
         <div className="auth-background-grid" aria-hidden="true" />
         {isEntering && <div className="auth-entry-overlay" />}
         <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-primary-500/20 blur-3xl"></div>
-          <div className="absolute right-[-10%] top-20 h-72 w-72 rounded-full bg-secondary-500/15 blur-3xl"></div>
+          <div className="absolute left-1/2 top-0 h-48 w-48 sm:h-64 sm:w-64 -translate-x-1/2 rounded-full bg-primary-500/20 blur-3xl"></div>
+          <div className="absolute right-[-10%] top-20 h-56 w-56 sm:h-72 sm:w-72 rounded-full bg-secondary-500/15 blur-3xl"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {/* Header */}
           <div className={`mb-8 ${isEntering ? 'auth-panel-enter' : ''}`}>
-            <h1 className="auth-title text-3xl font-bold mb-2 animate-[floatUp_0.85s_ease-out]">
-              Welcome back, {userProfile?.firstName || user?.firstName || "User"}!
-            </h1>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-secondary-500 text-white">
+                <User className="h-7 w-7" />
+              </div>
+              <h1 className="auth-title text-3xl font-bold animate-[floatUp_0.85s_ease-out]">
+                Welcome back, {userProfile?.firstName || user?.firstName || "User"}! 👋
+              </h1>
+            </div>
             <p className="auth-subtitle">
-              Here's what's happening with your job search.
+              Here's what's happening with your job search
             </p>
           </div>
 
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div 
+            <div
               className="stat-card"
               style={{ '--float-delay': '0.1s' } as CSSProperties}
             >
@@ -312,78 +308,81 @@ export default function JobSeekerHomepage() {
                     </div>
                   </div>
                   <div className="ml-5 flex-1 min-w-0">
-                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Applications</p>
-                    <p className="stat-number">
-                      {stats.applications}
+                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">
+                      Applications
                     </p>
+                    <p className="stat-number">{stats.applications}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div 
+            <div
               className="stat-card"
               style={{ '--float-delay': '0.2s' } as CSSProperties}
             >
               <div className="p-6">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-500/35 bg-blue-500/15 text-blue-500 shadow-inner shadow-blue-700/25">
                       <Calendar className="h-7 w-7" />
                     </div>
                   </div>
                   <div className="ml-5 flex-1 min-w-0">
-                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Interviews</p>
-                    <p className="stat-number">
-                      {stats.interviews}
+                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">
+                      Interviews
                     </p>
+                    <p className="stat-number">{stats.interviews}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div 
+            <div
               className="stat-card"
               style={{ '--float-delay': '0.3s' } as CSSProperties}
             >
               <div className="p-6">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-green-500/35 bg-green-500/15 text-green-500 shadow-inner shadow-green-700/25">
                       <TrendingUp className="h-7 w-7" />
                     </div>
                   </div>
                   <div className="ml-5 flex-1 min-w-0">
-                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Offers</p>
+                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">
+                      Offers
+                    </p>
                     <p className="stat-number">{stats.offers}</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div 
+            <div
               className="stat-card"
               style={{ '--float-delay': '0.4s' } as CSSProperties}
             >
               <div className="p-6">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-orange-500/35 bg-orange-500/15 text-orange-500 shadow-inner shadow-orange-700/25">
                       <Users className="h-7 w-7" />
                     </div>
                   </div>
                   <div className="ml-5 flex-1 min-w-0">
-                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Profile Views</p>
-                    <p className="stat-number">
-                      {stats.profile_views}
+                    <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">
+                      Profile Views
                     </p>
+                    <p className="stat-number">{stats.profile_views}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Profile & Applications Grid */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 mb-8">
             {/* User Profile Summary */}
             <div className="card">
               <div className="flex justify-between items-center mb-6 animate-[floatUp_0.85s_ease-out]">
@@ -401,7 +400,7 @@ export default function JobSeekerHomepage() {
               <div className="space-y-6">
                 {/* Profile Picture */}
                 <div className="flex items-center gap-4">
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500/20 to-primary-500/5 text-primary-600 shadow-inner shadow-primary-900/10">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary-500/20 to-primary-500/5 text-primary-600 shadow-inner shadow-primary-900/10 flex-shrink-0">
                     {userProfile?.profile?.profilePicture ? (
                       <img
                         src={userProfile.profile.profilePicture}
@@ -412,11 +411,11 @@ export default function JobSeekerHomepage() {
                       <User className="h-8 w-8" />
                     )}
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h3 className="text-lg font-semibold text-gray-900">
                       {userProfile?.firstName} {userProfile?.lastName}
                     </h3>
-                    <p className="text-sm text-secondary-600">{userProfile?.email}</p>
+                    <p className="text-sm text-secondary-600 break-all">{userProfile?.email}</p>
                   </div>
                 </div>
 
@@ -524,7 +523,7 @@ export default function JobSeekerHomepage() {
                           Applied {new Date(app.appliedDate).toLocaleDateString()}
                         </p>
                       </div>
-                      <div className="flex-shrink-0 ml-4">
+                      <div className="flex-shrink-0">
                         <span
                           className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border shadow-inner ${
                             app.status === 'pending' 
@@ -550,67 +549,86 @@ export default function JobSeekerHomepage() {
             </div>
           </div>
 
-          {/* Quick Actions & Resources */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {/* Career Webinars */}
-            <div className="card group hover:border-purple-500/40 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-purple-500/35 bg-purple-500/15 text-purple-500 shadow-inner shadow-purple-700/25">
-                  <BookOpen className="h-6 w-6" />
+          {/* Quick Actions */}
+          <div className="mb-8">
+            <h2 className="feature-heading text-xl font-semibold mb-6 animate-[floatUp_0.85s_ease-out]">
+              Quick Actions
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link
+                href="/jobs"
+                className="feature-card p-6 group"
+                style={{ '--float-delay': '0.1s' } as CSSProperties}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-600 mb-4 group-hover:scale-110 transition-transform">
+                  <Briefcase className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Career Webinars
+                <h3 className="font-semibold text-base text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  Browse Jobs
                 </h3>
-              </div>
-              <p className="mb-4 text-sm text-secondary-600">
-                Learn from industry experts and mentors through live webinars
-              </p>
+                <p className="text-sm text-secondary-600">Find opportunities</p>
+              </Link>
+
               <Link
                 href="/webinars"
-                className="btn-secondary w-full px-4 py-2 text-sm inline-flex items-center justify-center gap-2"
+                className="feature-card p-6 group"
+                style={{ '--float-delay': '0.2s' } as CSSProperties}
               >
-                Browse Webinars
-                <ChevronRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            {/* Interview Prep */}
-            <div className="card group hover:border-blue-500/40 transition-all duration-300">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-500/35 bg-blue-500/15 text-blue-500 shadow-inner shadow-blue-700/25">
-                  <Target className="h-6 w-6" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-100 text-purple-600 mb-4 group-hover:scale-110 transition-transform">
+                  <BookOpen className="h-6 w-6" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Interview Prep
+                <h3 className="font-semibold text-base text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  Career Webinars
                 </h3>
-              </div>
-              <p className="mb-4 text-sm text-secondary-600">
-                Get AI-powered interview tips tailored to your target role
-              </p>
+                <p className="text-sm text-secondary-600">Learn from experts</p>
+              </Link>
+
               <Link
                 href="/interview-prep"
-                className="btn-primary w-full px-4 py-2 text-sm inline-flex items-center justify-center gap-2"
+                className="feature-card p-6 group"
+                style={{ '--float-delay': '0.3s' } as CSSProperties}
               >
-                Start Preparing
-                <ChevronRight className="h-4 w-4" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 mb-4 group-hover:scale-110 transition-transform">
+                  <Target className="h-6 w-6" />
+                </div>
+                <h3 className="font-semibold text-base text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  Interview Prep
+                </h3>
+                <p className="text-sm text-secondary-600">AI-powered tips</p>
+              </Link>
+
+              <Link
+                href="/resume-builder"
+                className="feature-card p-6 group"
+                style={{ '--float-delay': '0.4s' } as CSSProperties}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600 mb-4 group-hover:scale-110 transition-transform">
+                  <Edit className="h-6 w-6" />
+                </div>
+                <h3 className="font-semibold text-base text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+                  Resume Builder
+                </h3>
+                <p className="text-sm text-secondary-600">Create your resume</p>
               </Link>
             </div>
+          </div>
 
-            {/* Notifications */}
+          {/* Notifications Section */}
+          <div className="mb-8">
             <div className="card">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
-                  <Bell className="h-6 w-6" />
+              <div className="flex items-center gap-3 mb-6 animate-[floatUp_0.85s_ease-out]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-100 text-primary-600">
+                  <Bell className="h-5 w-5" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Notifications
-                </h3>
+                <h2 className="feature-heading text-xl font-semibold">
+                  Recent Notifications
+                </h2>
               </div>
               <div className="space-y-3">
-                {notifications.slice(0, 2).map((notification, index) => (
+                {notifications.slice(0, 3).map((notification, index) => (
                   <div
                     key={notification.id}
-                    className="feature-card p-3 group"
+                    className="feature-card p-4 group"
                     style={{ '--float-delay': `${0.1 + index * 0.08}s` } as CSSProperties}
                   >
                     <div className="flex items-start gap-3">
@@ -650,7 +668,7 @@ export default function JobSeekerHomepage() {
 
             {loadingRecommendations ? (
               <div className="text-center py-12">
-                <div className="futuristic-loader mx-auto mb-4" style={{ width: '48px', height: '48px' }}>
+                <div className="futuristic-loader mx-auto mb-4" style={{ width: '40px', height: '40px' }}>
                   <div className="futuristic-loader-inner"></div>
                 </div>
                 <p className="auth-subtitle">Loading recommendations...</p>
@@ -681,15 +699,15 @@ export default function JobSeekerHomepage() {
                     className="feature-card p-5 group"
                     style={{ '--float-delay': `${0.1 + index * 0.08}s` } as CSSProperties}
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <div className="flex-1">
+                    <div className="flex justify-between items-start gap-3 mb-3">
+                      <div className="flex-1 min-w-0">
                         <h3 className="font-semibold text-gray-900 mb-1 text-lg group-hover:text-primary-600 transition-colors">
                           {job.title}
                         </h3>
                         <p className="text-sm text-secondary-600 mb-3">{job.company}</p>
                       </div>
                       {job.matchScore && (
-                        <span className="inline-flex items-center rounded-full bg-gradient-to-r from-green-500 to-emerald-500 px-2.5 py-1 text-xs font-semibold text-white shadow-lg">
+                        <span className="inline-flex items-center rounded-full bg-gradient-to-r from-green-500 to-emerald-500 px-2.5 py-1 text-xs font-semibold text-white shadow-lg flex-shrink-0">
                           {Math.round(job.matchScore)}% Match
                         </span>
                       )}

@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable}>
       <body className="min-h-screen bg-transparent font-[family-name:var(--font-space-grotesk)]">
         <Providers>
-          <div className="min-h-screen flex flex-col lg:flex-row">
+          <div className="min-h-screen flex">
             <Sidebar />
             <div className="flex-1 flex flex-col min-w-0">
               <Navbar />

@@ -1294,3 +1294,7 @@ tat Card Styles */
   .stat-number {
     @apply text-3xl font-bold text-gray-900;
   }
+
+  .stat-label {
+    @apply text-xs sm:text-sm font-medium uppercase tracking-wide text-secondary-600 leading-tight;
+  }
