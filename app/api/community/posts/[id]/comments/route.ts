@@ -9,7 +9,7 @@ export async function GET(
   try {
     await dbConnect();
 
-    const post = await CommunityPost.findById(params.id)
+    const post: any = await CommunityPost.findById(params.id)
       .populate({
         path: 'comments.author',
         select: 'firstName lastName role',
@@ -23,7 +23,7 @@ export async function GET(
       );
     }
 
-    const formattedComments = post.comments.map((comment: any) => ({
+    const formattedComments = (post.comments || []).map((comment: any) => ({
       id: comment._id.toString(),
       author: {
         name: `${comment.author.firstName} ${comment.author.lastName}`,
