@@ -46,7 +46,7 @@ export default function TestMentorshipPage() {
   }
 
   const sendRequest = async (mentorId: string) => {
-    if (user?._id === mentorId) {
+    if ((user as any)?._id === mentorId) {
       setMessage('Error: You cannot send a mentorship request to yourself!')
       return
     }
@@ -136,17 +136,17 @@ export default function TestMentorshipPage() {
                 </div>
                 <button
                   onClick={() => sendRequest(mentor._id)}
-                  disabled={loading || user?.role === 'mentor' || user?._id === mentor._id}
+                  disabled={loading || user?.role === 'mentor' || (user as any)?._id === mentor._id}
                   className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
                   title={
                     user?.role === 'mentor' 
                       ? 'Mentors cannot send requests' 
-                      : user?._id === mentor._id 
+                      : (user as any)?._id === mentor._id 
                       ? 'Cannot request yourself' 
                       : 'Send mentorship request'
                   }
                 >
-                  {user?._id === mentor._id ? 'You' : 'Send Request'}
+                  {(user as any)?._id === mentor._id ? 'You' : 'Send Request'}
                 </button>
               </div>
             ))}
