@@ -50,8 +50,8 @@ export default function Navbar() {
 
   const AuthenticatedNav = () => (
     <>
-      {/* Notifications */}
-      <div className="relative">
+      {/* Action Buttons */}
+      <div className="flex items-center gap-3">
         {/* Bookmarks Button */}
         <Link
           href="/bookmarks"
@@ -61,24 +61,25 @@ export default function Navbar() {
           <Bookmark className="h-5 w-5" />
         </Link>
 
-        {/* Notifications Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            setShowNotifications(!showNotifications)
-          }}
-          className="group relative flex items-center justify-center h-10 w-10 rounded-full border border-primary-500/40 bg-white/70 text-secondary-700 shadow-lg shadow-primary-700/20 backdrop-blur-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 hover:border-primary-500/60 hover:bg-white/80 hover:text-primary-600 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
-        >
-          <Bell className="h-5 w-5" />
-          {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white ring-2 ring-white">
-              {unreadCount}
-            </span>
-          )}
-        </button>
+        {/* Notifications */}
+        <div className="relative">
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setShowNotifications(!showNotifications)
+            }}
+            className="group relative flex items-center justify-center h-10 w-10 rounded-full border border-primary-500/40 bg-white/70 text-secondary-700 shadow-lg shadow-primary-700/20 backdrop-blur-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 hover:border-primary-500/60 hover:bg-white/80 hover:text-primary-600 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
+          >
+            <Bell className="h-5 w-5" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white ring-2 ring-white">
+                {unreadCount}
+              </span>
+            )}
+          </button>
 
-        {showNotifications && (
-          <div className="absolute right-0 mt-3 w-80 overflow-hidden rounded-2xl border border-primary-500/40 bg-white/90 shadow-2xl shadow-primary-700/20 backdrop-blur-xl animate-[floatUp_0.3s_ease-out]">
+          {showNotifications && (
+            <div className="absolute right-0 mt-3 w-80 overflow-hidden rounded-2xl border border-primary-500/40 bg-white/90 shadow-2xl shadow-primary-700/20 backdrop-blur-xl animate-[floatUp_0.3s_ease-out] z-50">
             <div className="p-4 border-b border-primary-500/20">
               <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
             </div>
@@ -127,8 +128,9 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* User Menu */}
