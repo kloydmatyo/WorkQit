@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Award, Download, Share2, ExternalLink, Calendar, Trophy } from 'lucide-react'
+import { Award, Download, Calendar, Trophy } from 'lucide-react'
 
 export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<any[]>([])
@@ -190,27 +190,7 @@ export default function CertificatesPage() {
                     </div>
                   )}
 
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => handleShare(cert)}
-                      className="relative flex-1 px-5 py-3 border-2 border-primary-500/30 text-primary-600 rounded-xl hover:bg-white/80 text-base font-bold flex items-center justify-center gap-2 transition-all duration-500 hover:scale-105 hover:border-primary-500/50 hover:shadow-lg overflow-hidden group/share"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-secondary-500/5 to-primary-500/5 opacity-0 group-hover/share:opacity-100 transition-opacity duration-500 rounded-xl"></div>
-                      <Share2 className="w-5 h-5 relative z-10 group-hover/share:scale-125 transition-transform duration-300" />
-                      <span className="relative z-10">Share</span>
-                    </button>
-                    <a
-                      href={cert.verificationUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative flex-1 px-5 py-3 border-2 border-primary-500/50 bg-white/60 backdrop-blur-xl text-primary-600 rounded-xl shadow-xl shadow-primary-500/30 hover:bg-white/80 text-base font-bold flex items-center justify-center gap-2 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/50 hover:border-primary-500/70 overflow-hidden group/verify"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 via-secondary-500/10 to-primary-500/10 opacity-0 group-hover/verify:opacity-100 transition-opacity duration-500 rounded-xl"></div>
-                      <ExternalLink className="w-5 h-5 relative z-10 group-hover/verify:scale-125 group-hover/verify:translate-x-1 transition-transform duration-300" />
-                      <span className="relative z-10">Verify</span>
-                      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/verify:opacity-100 group-hover/verify:translate-x-full transition-all duration-1000"></div>
-                    </a>
-                  </div>
+
                 </div>
               </div>
             ))}
