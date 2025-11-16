@@ -35,10 +35,10 @@ export default function Navbar() {
     <>
       <div className="hidden md:flex items-center gap-3">
         <Link
-          href="/dashboard"
-          className={`nav-link ${isActive('/dashboard') ? 'nav-link-active' : ''}`}
+          href="/"
+          className={`nav-link ${isActive('/') ? 'nav-link-active' : ''}`}
         >
-          Dashboard
+          Home
         </Link>
         <Link href="/jobs" className={`nav-link group ${isActive('/jobs') ? 'nav-link-active' : ''}`}>
           <Briefcase className="nav-icon text-secondary-500 group-hover:text-primary-500" />
@@ -171,6 +171,9 @@ export default function Navbar() {
 
   const MobileAuthenticatedNav = () => (
     <>
+      <Link href="/" className={`nav-link-block ${isActive('/') ? 'nav-link-block-active' : ''}`}>
+        Home
+      </Link>
       <Link href="/jobs" className={`nav-link-block ${isActive('/jobs') ? 'nav-link-block-active' : ''}`}>
         Jobs
       </Link>
@@ -190,9 +193,6 @@ export default function Navbar() {
       </Link>
       <Link href="/community" className={`nav-link-block ${isActive('/community') ? 'nav-link-block-active-green' : ''}`}>
         Community
-      </Link>
-      <Link href="/dashboard" className={`nav-link-block ${isActive('/dashboard') ? 'nav-link-block-active' : ''}`}>
-        Dashboard
       </Link>
       <Link href="/profile" className={`nav-link-block ${isActive('/profile') ? 'nav-link-block-active' : ''}`}>
         Profile Settings
