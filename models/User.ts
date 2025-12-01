@@ -12,6 +12,9 @@ export interface IUser extends mongoose.Document {
   googleId?: string
   authProvider: 'local' | 'google' | 'hybrid'
   hasPassword: boolean
+  address?: string
+  birthdate?: Date
+  contactNumber?: string
   profile: {
     bio?: string
     skills: string[]
@@ -169,6 +172,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     enum: ['job_seeker', 'employer', 'mentor', 'student', 'admin'],
     default: 'job_seeker',
+  },
+  address: {
+    type: String,
+  },
+  birthdate: {
+    type: Date,
+  },
+  contactNumber: {
+    type: String,
   },
   profile: {
     bio: String,

@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect()
     
-    const { email, password, firstName, lastName, role } = await request.json()
+    const { email, password, firstName, lastName, role, address, birthdate, contactNumber } = await request.json()
 
     // Validate input
     if (!email || !firstName || !lastName) {
@@ -124,6 +124,9 @@ export async function POST(request: NextRequest) {
       emailVerificationToken: verificationToken,
       emailVerificationExpires: verificationExpires,
       passwordChangedAt: new Date(), // Track when password was set
+      address: address || '',
+      birthdate: birthdate || null,
+      contactNumber: contactNumber || '',
     }
 
     // Set verification status for employers
