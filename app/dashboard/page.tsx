@@ -211,43 +211,40 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
           <div 
-            className="stat-card"
+            className="card"
             style={{ '--float-delay': '0.1s' } as CSSProperties}
           >
-            <div className="p-6">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
-                    <Briefcase className="h-7 w-7" />
-                  </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0">
+                <div className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                  <Briefcase className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
-                <div className="ml-5 flex-1 min-w-0">
-                  <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Applications</p>
-                  <p className="stat-number">
-                    {stats.applications}
-                  </p>
-                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs md:text-sm font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1">Applications</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary-600">
+                  {stats.applications}
+                </p>
               </div>
             </div>
           </div>
 
           <div 
-            className="stat-card"
+            className="card"
             style={{ '--float-delay': '0.2s' } as CSSProperties}
           >
-            <div className="p-6">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
-                    <Calendar className="h-7 w-7" />
-                  </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0">
+                <div className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                  <Calendar className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
-                <div className="ml-5 flex-1 min-w-0">
-                  <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Interviews</p>
-                  <p className="stat-number">
-                    {stats.interviews}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs md:text-sm font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1">Interviews</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary-600">
+                  {stats.interviews}
                   </p>
                 </div>
               </div>
@@ -255,52 +252,48 @@ export default function DashboardPage() {
           </div>
 
           <div 
-            className="stat-card"
+            className="card"
             style={{ '--float-delay': '0.3s' } as CSSProperties}
           >
-            <div className="p-6">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
-                    <TrendingUp className="h-7 w-7" />
-                  </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0">
+                <div className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                  <TrendingUp className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
-                <div className="ml-5 flex-1 min-w-0">
-                  <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Offers</p>
-                  <p className="stat-number">{stats.offers}</p>
-                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs md:text-sm font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1">Offers</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary-600">{stats.offers}</p>
               </div>
             </div>
           </div>
 
           <div 
-            className="stat-card"
+            className="card"
             style={{ '--float-delay': '0.4s' } as CSSProperties}
           >
-            <div className="p-6">
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
-                    <Users className="h-7 w-7" />
-                  </div>
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0">
+                <div className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl border border-primary-500/35 bg-primary-500/15 text-primary-500 shadow-inner shadow-primary-700/25">
+                  <Users className="h-6 w-6 md:h-7 md:w-7" />
                 </div>
-                <div className="ml-5 flex-1 min-w-0">
-                  <p className="text-base font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1 break-words">Profile Views</p>
-                  <p className="stat-number">
-                    {stats.profile_views}
-                  </p>
-                </div>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs md:text-sm font-medium uppercase tracking-wide text-secondary-600 leading-tight mb-1">Profile Views</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary-600">
+                  {stats.profile_views}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
       {/* AI Recommendations Section */}
-      <div className="mb-8">
+      <div className="mb-6 md:mb-8">
         <AIRecommendations />
       </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           {/* Recent Applications */}
           <div className="card">
             <div className="flex justify-between items-center mb-6 animate-[floatUp_0.85s_ease-out]">

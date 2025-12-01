@@ -763,6 +763,10 @@
     @apply border-green-300/60 bg-green-50/70 text-green-700 shadow-green-200/60;
   }
 
+  .glass-alert-info {
+    @apply border-blue-300/60 bg-blue-50/70 text-blue-700 shadow-blue-200/60;
+  }
+
   .nav-link {
     @apply relative inline-flex items-center gap-4 rounded-2xl px-5 py-3 text-lg font-semibold text-secondary-600 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.04] hover:bg-white/60 hover:text-primary-600 hover:shadow-lg hover:shadow-primary-500/20 focus:outline-none focus-visible:-translate-y-0.5 focus-visible:scale-[1.04] focus-visible:ring-2 focus-visible:ring-primary-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }
