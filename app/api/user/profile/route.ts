@@ -62,6 +62,9 @@ export async function PUT(request: NextRequest) {
       {
         firstName: updateData.firstName,
         lastName: updateData.lastName,
+        address: updateData.address,
+        birthdate: updateData.birthdate,
+        contactNumber: updateData.contactNumber,
         profile: updateData.profile
       },
       { new: true, runValidators: true }

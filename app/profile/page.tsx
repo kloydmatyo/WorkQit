@@ -22,6 +22,9 @@ interface UserProfile {
   firstName: string
   lastName: string
   role: string
+  address?: string
+  birthdate?: string
+  contactNumber?: string
   profile: {
     bio?: string
     skills: string[]
@@ -50,7 +53,10 @@ export default function ProfilePage() {
     experience: '',
     education: '',
     availability: '',
-    remote: false
+    remote: false,
+    address: '',
+    birthdate: '',
+    contactNumber: ''
   })
   const [isEntering, setIsEntering] = useState(true)
 
@@ -78,7 +84,10 @@ export default function ProfilePage() {
           experience: data.user.profile?.experience || '',
           education: data.user.profile?.education || '',
           availability: data.user.profile?.availability || '',
-          remote: data.user.profile?.remote || false
+          remote: data.user.profile?.remote || false,
+          address: data.user.address || '',
+          birthdate: data.user.birthdate ? new Date(data.user.birthdate).toISOString().split('T')[0] : '',
+          contactNumber: data.user.contactNumber || ''
         })
       } else {
         setError('Failed to load profile')
@@ -100,6 +109,9 @@ export default function ProfilePage() {
         body: JSON.stringify({
           firstName: formData.firstName,
           lastName: formData.lastName,
+          address: formData.address,
+          birthdate: formData.birthdate,
+          contactNumber: formData.contactNumber,
           profile: {
             bio: formData.bio,
             skills: formData.skills.split(',').map(s => s.trim()).filter(s => s),
@@ -229,6 +241,52 @@ export default function ProfilePage() {
                               value={formData.lastName}
                               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                               className="glass-input w-full px-5 py-3.5 text-base font-medium transition-all duration-300 group-hover:border-primary-500/50 focus:border-primary-500/70 focus:shadow-lg focus:shadow-primary-500/20"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div className="group">
+                            <label className="auth-label block text-sm font-bold uppercase tracking-[0.15em] text-primary-600 mb-3 flex items-center gap-2">
+                              <div className="h-1.5 w-1.5 rounded-full bg-primary-500 animate-pulse"></div>
+                              Contact Number
+                            </label>
+                            <input
+                              type="tel"
+                              value={formData.contactNumber}
+                              onChange={(e) => {
+                                const numbersOnly = e.target.value.replace(/[^0-9]/g, '');
+                                setFormData({ ...formData, contactNumber: numbersOnly });
+                              }}
+                              className="glass-input w-full px-5 py-3.5 text-base font-medium transition-all duration-300 group-hover:border-primary-500/50 focus:border-primary-500/70 focus:shadow-lg focus:shadow-primary-500/20"
+                              placeholder="1234567890"
+                              pattern="[0-9]*"
+                              inputMode="numeric"
+                            />
+                          </div>
+                          <div className="group">
+                            <label className="auth-label block text-sm font-bold uppercase tracking-[0.15em] text-primary-600 mb-3 flex items-center gap-2">
+                              <div className="h-1.5 w-1.5 rounded-full bg-primary-500 animate-pulse"></div>
+                              Date of Birth
+                            </label>
+                            <input
+                              type="date"
+                              value={formData.birthdate}
+                              onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
+                              className="glass-input w-full px-5 py-3.5 text-base font-medium transition-all duration-300 group-hover:border-primary-500/50 focus:border-primary-500/70 focus:shadow-lg focus:shadow-primary-500/20"
+                            />
+                          </div>
+                          <div className="group md:col-span-1">
+                            <label className="auth-label block text-sm font-bold uppercase tracking-[0.15em] text-primary-600 mb-3 flex items-center gap-2">
+                              <div className="h-1.5 w-1.5 rounded-full bg-primary-500 animate-pulse"></div>
+                              Address
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.address}
+                              onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                              className="glass-input w-full px-5 py-3.5 text-base font-medium transition-all duration-300 group-hover:border-primary-500/50 focus:border-primary-500/70 focus:shadow-lg focus:shadow-primary-500/20"
+                              placeholder="Street, City, State, ZIP"
                             />
                           </div>
                         </div>
@@ -383,6 +441,41 @@ export default function ProfilePage() {
                               <span className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors duration-300">{user?.email}</span>
                             </div>
                           </div>
+                          {user?.contactNumber && (
+                            <div className="feature-card p-5 flex items-center space-x-4 group">
+                              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary-500/30 bg-primary-500/15 text-primary-600 shadow-inner shadow-primary-700/20">
+                                <User className="h-6 w-6" />
+                              </div>
+                              <div>
+                                <div className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">Contact Number</div>
+                                <span className="text-base font-medium text-gray-900">{user.contactNumber}</span>
+                              </div>
+                            </div>
+                          )}
+                          {user?.birthdate && (
+                            <div className="feature-card p-5 flex items-center space-x-4 group">
+                              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary-500/30 bg-primary-500/15 text-primary-600 shadow-inner shadow-primary-700/20">
+                                <Clock className="h-6 w-6" />
+                              </div>
+                              <div>
+                                <div className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">Date of Birth</div>
+                                <span className="text-base font-medium text-gray-900">
+                                  {new Date(user.birthdate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {user?.address && (
+                            <div className="feature-card p-5 flex items-center space-x-4 group">
+                              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary-500/30 bg-primary-500/15 text-primary-600 shadow-inner shadow-primary-700/20">
+                                <MapPin className="h-6 w-6" />
+                              </div>
+                              <div>
+                                <div className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">Address</div>
+                                <span className="text-base font-medium text-gray-900">{user.address}</span>
+                              </div>
+                            </div>
+                          )}
                           {user?.profile?.location && (
                             <div className="feature-card p-5 flex items-center space-x-4 group">
                               <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-primary-500/30 bg-primary-500/15 text-primary-600 shadow-inner shadow-primary-700/20">
