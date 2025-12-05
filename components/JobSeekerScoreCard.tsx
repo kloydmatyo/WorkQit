@@ -248,21 +248,7 @@ export default function JobSeekerScoreCard() {
         <div className="p-6 bg-white relative z-10 space-y-6">
           {/* Application Status Alert */}
           <div className="animate-[floatUp_0.6s_ease-out_0.1s_both]">
-            {score.totalScore < 60 ? (
-              <div className={`p-5 ${tierConfig.bgColor} border-2 ${tierConfig.borderColor} rounded-xl shadow-lg`}>
-                <div className="flex items-start gap-3">
-                  <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${tierConfig.bgColor} border ${tierConfig.borderColor} flex-shrink-0`}>
-                    <AlertCircle className={`w-5 h-5 ${tierConfig.textColor}`} />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className={`font-bold ${tierConfig.textColor} mb-2 text-base`}>Profile Incomplete</h4>
-                    <p className={`text-sm ${tierConfig.textColor} leading-relaxed`}>
-                      You need a score of at least <strong>60</strong> to apply for jobs. Complete the items below to increase your score.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : score.totalScore < 75 ? (
+            {score.totalScore < 75 ? (
               <div className="p-5 bg-blue-50/80 border-2 border-blue-200 rounded-xl shadow-lg backdrop-blur-sm">
                 <div className="flex items-start gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 border border-blue-300 flex-shrink-0">
