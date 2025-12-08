@@ -10,6 +10,32 @@ export async function POST(request: NextRequest) {
   try {
     // Optional: Add admin authentication check here
     
+    // Check if async mode is requested
+    const { searchParams } = new URL(request.url)
+    const async = searchParams.get('async') === 'true'
+    
+    if (async) {
+      // Queue the sync job
+      const { jobs } = await import('@/lib/rabbitmq')
+      const queued = await jobs.syncStudents({
+        source: 'student-management-api',
+        batchSize: 50,
+      })
+      
+      if (!queued) {
+        return NextResponse.json(
+          { error: 'Failed to queue sync job' },
+          { status: 500 }
+        )
+      }
+      
+      return NextResponse.json({
+        success: true,
+        message: 'Student sync queued for background processing',
+        mode: 'async',
+      })
+    }
+    
     await dbConnect()
     
     console.log('📥 Fetching students from management system...')

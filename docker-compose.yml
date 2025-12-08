@@ -23,12 +23,14 @@ services:
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://workqit:workqit123@rabbitmq:5672
     env_file:
       - .env.local
     expose:
       - "3000"
     depends_on:
       - redis
+      - rabbitmq
     restart: unless-stopped
     networks:
       - workqit-network
@@ -43,9 +45,24 @@ services:
     networks:
       - workqit-network
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: workqit-rabbitmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=workqit
+      - RABBITMQ_DEFAULT_PASS=workqit123
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    restart: unless-stopped
+    networks:
+      - workqit-network
+
 networks:
   workqit-network:
     driver: bridge
 
 volumes:
   redis-data:
+  rabbitmq-data:
